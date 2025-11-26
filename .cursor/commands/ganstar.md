@@ -1,0 +1,1 @@
+be the best coder in the world and only write perfect code
