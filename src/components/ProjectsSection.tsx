@@ -4,18 +4,21 @@ import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 import { useRef } from "react";
 import { useMouseGlow } from "@/hooks/useMouseGlow";
 
+
+
 interface ProjectImage {
   src: string;
   scale?: number;
   offsetX?: number;
   offsetY?: number;
+  opacity?: number;
 }
 
 const projects = [
   {
     title: "AutoGPT",
     description:
-      "Helped wire Selenium into the earliest builds so the agent could drive a browser. Worked directly with Toran Bruce Richards on agent architecture before agentic AI was a thing.",
+      "Contributed to the development of AutoGPT, a project that was one of the first to use LLMs for agentic workflows. Worked directly with Toran Bruce Richards on agent architecture before agentic AI was a thing.",
     tech: ["Python", "Selenium", "GPT-4"],
     link: "https://github.com/Significant-Gravitas/AutoGPT",
     type: "contribution",
@@ -25,22 +28,24 @@ const projects = [
     title: "Godot GOAP Demo",
     description:
       "High-performance goal-oriented action planner in Godot. Custom ECS, custom sprite renderer that bypasses the scene tree, backward dependency pruning. 10k+ plans/sec.",
-    tech: ["C#", "Godot", "ECS"],
+    tech: ["C#", "Godot", "Jetbrains Rider"],
     link: "https://github.com/Void-n-Null/godot-goap-demo",
     type: "building",
     featured: true,
+    text_color: "text-cyan-200 font-medium",
     image: {
       src: "/goap_demo_example.png",
       scale: 1.4,
       offsetX: -50,
       offsetY: 0,
+      opacity: 0.3,
     } as ProjectImage,
   },
   {
     title: "Rebang",
     description:
-      "Forked unduck and made it faster. Optimized a 13,000-entry bang database and built a custom bang creation tool.",
-    tech: ["TypeScript", "Search"],
+      "Created a simple but powerful search redirector using bangs. Optimized a 13,000 bang to be ~43% smaller and built a custom bang creation tool.",
+    tech: ["TypeScript", "React", "Tailwind", "Shadcn"],
     link: "https://github.com/Void-n-Null/rebang",
     type: "shipped",
     featured: false,
@@ -49,6 +54,7 @@ const projects = [
       scale: 1.7,
       offsetX: -22,
       offsetY: -4,
+      opacity: 0.5,
     } as ProjectImage,
   },
 ];
@@ -83,7 +89,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       {/* Glowing border - masked by mouse position */}
       <div 
         ref={glowBorderRef}
-        className="absolute inset-0 rounded-2xl border border-blue-primary-foreground/60 pointer-events-none"
+        className="absolute inset-0 rounded-2xl border border-2 border-blue-primary-foreground pointer-events-none"
         style={{
           maskImage: "radial-gradient(250px circle at -1000px -1000px, black, transparent)",
           WebkitMaskImage: "radial-gradient(250px circle at -1000px -1000px, black, transparent)",
@@ -91,12 +97,12 @@ function ProjectCard({ project }: ProjectCardProps) {
       />
 
       {/* Card background */}
-      <div className="absolute inset-[1px] rounded-2xl bg-gradient-to-br from-card/95 to-card/80 pointer-events-none" />
+      <div className="absolute inset-[1px] rounded-2xl pointer-events-none" />
 
       {/* Card content */}
       <div className="relative h-full overflow-hidden rounded-2xl">
-        {/* Project image background */}
-        {project.image && (
+        {/* Project image background or fallback */}
+        {project.image ? (
           <div className="absolute inset-0 overflow-hidden">
             <div
               className="absolute inset-0 opacity-20 group-hover:opacity-35 transition-opacity duration-500"
@@ -105,15 +111,13 @@ function ProjectCard({ project }: ProjectCardProps) {
                 backgroundSize: `${(project.image.scale ?? 1) * 100}%`,
                 backgroundPosition: `${50 + (project.image.offsetX ?? 0)}% ${50 + (project.image.offsetY ?? 0)}%`,
                 backgroundRepeat: "no-repeat",
+                opacity: project.image.opacity ?? 1,
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-card/40" />
           </div>
+        ) : (
+          <div className="absolute inset-0 rounded-2xl bg-black/40" />
         )}
-
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-neon-secondary/5" />
-        </div>
 
         <div className="relative p-6 sm:p-8 h-full flex flex-col">
           <div className="flex items-start justify-between mb-6">
@@ -138,7 +142,7 @@ function ProjectCard({ project }: ProjectCardProps) {
             {project.title}
           </h3>
 
-          <p className="text-muted-foreground leading-relaxed flex-grow mb-6">
+          <p className={`${project.text_color || "text-muted-foreground"} leading-relaxed flex-grow mb-6`}>
             {project.description}
           </p>
 
@@ -157,12 +161,6 @@ function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </div>
 
-        <div
-          className="absolute bottom-0 right-0 w-32 h-32 
-          bg-gradient-to-tl from-primary/10 to-transparent 
-          rounded-tl-full opacity-0 group-hover:opacity-100 
-          transition-opacity duration-500 pointer-events-none"
-        />
       </div>
     </a>
   );
