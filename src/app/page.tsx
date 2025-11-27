@@ -27,14 +27,10 @@ export default function Home() {
       </nav>
 
       <main className="relative z-10">
-        {/* Hero */}
         <HeroSection />
-
-        {/* About */}
+        <ProjectsSection />
         <AboutSection />
 
-        {/* Work */}
-        <ProjectsSection />
 
         {/* Contact */}
         <section id="contact" className="py-32 px-8">
@@ -56,7 +52,7 @@ export default function Home() {
                   className="group flex items-center gap-4 text-2xl sm:text-3xl font-medium hover:text-primary transition-colors"
                 >
                   <Mail className="w-6 h-6 text-primary" />
-                  hello@blakewerlinger.dev
+                  
                   <ArrowUpRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
                 
@@ -85,7 +81,7 @@ export default function Home() {
         <footer className="py-12 px-8">
           <div className="max-w-7xl mx-auto flex items-center justify-between text-sm text-muted-foreground/50">
             <span>© {new Date().getFullYear()}</span>
-            <span>Late nights, PST</span>
+
           </div>
         </footer>
       </main>

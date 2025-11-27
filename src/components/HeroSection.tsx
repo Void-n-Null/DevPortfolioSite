@@ -1,13 +1,28 @@
 import { Github, Mail, ArrowUpRight, ChevronDown } from "lucide-react";
+import { GradientText } from "./ui/GradientText";
 
 export function HeroSection() {
   return (
     <section className="min-h-[calc(100vh-15rem)] flex items-end px-8 pb-24 justify-center">
       <div className="max-w-7xl mx-auto w-full">
         <h1 className="text-[12vw] sm:text-[10vw] lg:text-[8vw] font-bold tracking-tighter leading-[0.85]">
-          <span className="text-foreground">Blake</span>
+          <span className="font-raleway font-bold hover:scale-105 transition-transform inline-block tracking-[0.09em]">
+            <GradientText 
+              text="BLAKE" 
+              id="blake" 
+              colors={["var(--primary)", "var(--neon-secondary)", "var(--primary)"]} 
+              animationDuration={8}
+            />
+          </span>
           <br />
-          <span className="text-gradient">Werlinger</span>
+          <span className="font-syncopate hover:scale-105 transition-transform inline-block">
+            <GradientText 
+              text="WERLINGER" 
+              id="werlinger" 
+              colors={["var(--neon-secondary)", "var(--primary)", "var(--neon-secondary)"]} 
+              animationDuration={10}
+            />
+          </span>
         </h1>
         
         <div className="mt-12 grid lg:grid-cols-2 gap-8 lg:gap-24">
@@ -45,7 +60,7 @@ export function HeroSection() {
         href="#about" 
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors"
       >
-        <ChevronDown className="w-6 h-6" />
+
       </a>
     </section>
   );

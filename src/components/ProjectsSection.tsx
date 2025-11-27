@@ -3,8 +3,13 @@
 import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 import { useRef } from "react";
 import { useMouseGlow } from "@/hooks/useMouseGlow";
-
-
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface ProjectImage {
   src: string;
@@ -15,22 +20,14 @@ interface ProjectImage {
 }
 
 const projects = [
-  {
-    title: "AutoGPT",
-    description:
-      "Contributed to the development of AutoGPT, a project that was one of the first to use LLMs for agentic workflows. Worked directly with Toran Bruce Richards on agent architecture before agentic AI was a thing.",
-    tech: ["Python", "Selenium", "GPT-4"],
-    link: "https://github.com/Significant-Gravitas/AutoGPT",
-    type: "contribution",
-    featured: true,
-  },
+
   {
     title: "Godot GOAP Demo",
     description:
       "High-performance goal-oriented action planner in Godot. Custom ECS, custom sprite renderer that bypasses the scene tree, backward dependency pruning. 10k+ plans/sec.",
     tech: ["C#", "Godot", "Jetbrains Rider"],
     link: "https://github.com/Void-n-Null/godot-goap-demo",
-    type: "building",
+
     featured: true,
     text_color: "text-cyan-200 font-medium",
     image: {
@@ -44,11 +41,11 @@ const projects = [
   {
     title: "Rebang",
     description:
-      "Created a simple but powerful search redirector using bangs. Optimized a 13,000 bang to be ~43% smaller and built a custom bang creation tool.",
+      "A simple but powerful search redirector using bangs. Optimized a 13,000 bang to be ~43% smaller and built a custom bang creation tool. ",
     tech: ["TypeScript", "React", "Tailwind", "Shadcn"],
     link: "https://github.com/Void-n-Null/rebang",
-    type: "shipped",
-    featured: false,
+
+    featured: true,
     image: {
       src: "/rebang_example.png",
       scale: 1.7,
@@ -56,6 +53,15 @@ const projects = [
       offsetY: -4,
       opacity: 0.5,
     } as ProjectImage,
+  },
+  {
+    title: "AutoGPT",
+    description:
+      "Contributed to the development of AutoGPT, a project that was one of the first to use LLMs for agentic workflows. Worked directly with Toran Bruce Richards on agent architecture before agentic AI was a thing.",
+    tech: ["Python", "Early Models (GPT 3.5, GPT 4)", "Prompt Engineering"],
+    link: "https://github.com/Significant-Gravitas/AutoGPT",
+
+    featured: false,
   },
 ];
 
@@ -124,10 +130,10 @@ function ProjectCard({ project }: ProjectCardProps) {
             <span
               className={`
               text-xs font-mono uppercase tracking-widest
-              ${typeColors[project.type] || "text-muted-foreground"}
+              text-muted-foreground
             `}
             >
-              {project.type}
+              {project.featured ? "Featured" : "Other"}
             </span>
             <ExternalLink
               className="w-5 h-5 text-muted-foreground/40 group-hover:text-primary 
@@ -167,17 +173,12 @@ function ProjectCard({ project }: ProjectCardProps) {
 }
 
 export function ProjectsSection() {
-  const featured = projects.filter((p) => p.featured);
-  const other = projects.filter((p) => !p.featured);
-
   return (
-    <section id="work" className="py-32 px-8">
+    <section id="work" className="py-8 px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+        <div className="mb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-primary mb-4">
-              Work
-            </p>
+
 
           </div>
           <a
@@ -190,45 +191,26 @@ export function ProjectsSection() {
           </a>
         </div>
 
-        <div className="grid gap-6 lg:gap-8">
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-            {featured.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
-
-          {other.length > 0 && (
-            <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
-              {other.map((project) => (
-                <ProjectCard key={project.title} project={project} />
+        <div className="px-4 md:px-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {projects.map((project) => (
+                <CarouselItem key={project.title} className="md:basis-1/2 lg:basis-1/2">
+                  <div className="h-full p-2">
+                    <ProjectCard project={project} />
+                  </div>
+                </CarouselItem>
               ))}
-            </div>
-          )}
-        </div>
-
-        <div className="mt-16 pt-16 border-t border-border/30">
-          <div className="flex flex-wrap gap-8 justify-center text-center">
-            <div>
-              <p className="text-4xl font-bold text-primary">3+</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Years Building
-              </p>
-            </div>
-            <div className="w-px bg-border/30 hidden sm:block" />
-            <div>
-              <p className="text-4xl font-bold text-primary">10+</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Projects Shipped
-              </p>
-            </div>
-            <div className="w-px bg-border/30 hidden sm:block" />
-            <div>
-              <p className="text-4xl font-bold text-primary">AI</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Agent Focus
-              </p>
-            </div>
-          </div>
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-12" />
+            <CarouselNext className="hidden md:flex -right-12" />
+          </Carousel>
         </div>
       </div>
     </section>
