@@ -48,7 +48,7 @@ export default function Home() {
               
               <div className="flex flex-col justify-end gap-8">
                 <a 
-                  href="mailto:hello@blakewerlinger.dev" 
+                  href="mailto:hello@blake-werlinger.com" 
                   className="group flex items-center gap-4 text-2xl sm:text-3xl font-medium hover:text-primary transition-colors"
                 >
                   <Mail className="w-6 h-6 text-primary" />
