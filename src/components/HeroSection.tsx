@@ -33,7 +33,7 @@ export function HeroSection() {
           <div className="flex flex-col gap-6 lg:items-end">
             <div className="flex items-center gap-6">
               <a 
-                href="mailto:hello@blakewerlinger.dev" 
+                href="mailto:hello@blake-werlinger.com" 
                 className="text-foreground hover:text-primary transition-colors flex items-center gap-2 group"
               >
                 <Mail className="w-5 h-5" />
