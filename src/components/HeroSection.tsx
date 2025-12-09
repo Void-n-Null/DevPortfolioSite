@@ -61,6 +61,8 @@ export function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors"
       >
 
+        
+
       </a>
     </section>
   );
