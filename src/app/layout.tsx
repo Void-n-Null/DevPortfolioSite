@@ -15,7 +15,8 @@ import {
   JetBrains_Mono,
   Space_Grotesk,
   Oswald,
-  Raleway
+  Raleway,
+  Red_Hat_Mono
 } from "next/font/google";
 import "./globals.css";
 
@@ -50,6 +51,7 @@ const audiowide = Audiowide({ variable: "--font-audiowide", weight: "400", subse
 // Mono
 const firaCode = Fira_Code({ variable: "--font-fira-code", subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"] });
+const redHatMono = Red_Hat_Mono({ variable: "--font-red-hat-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Blake Werlinger",
@@ -81,6 +83,7 @@ export default function RootLayout({
           ${audiowide.variable}
           ${firaCode.variable}
           ${jetbrainsMono.variable}
+          ${redHatMono.variable}
           font-sans antialiased
         `}
       >

@@ -1,11 +1,22 @@
+import React from "react";
 import { developerJourney, JourneyEntry } from "@/data/developerJourney";
 import { aiObsession } from "@/data/aiObsession";
+
+function renderWithBreaks(text: string, keyPrefix: string) {
+  const parts = text.split("\n");
+  return parts.map((part, index) => (
+    <React.Fragment key={`${keyPrefix}-${index}`}>
+      {part}
+      {index < parts.length - 1 && <br />}
+    </React.Fragment>
+  ));
+}
 
 function renderJourneyContent(entry: JourneyEntry) {
   const links = entry.links ?? [];
 
   if (!links.length) {
-    return entry.content;
+    return renderWithBreaks(entry.content, `${entry.id}-content`);
   }
 
   const escapedTexts = links.map((l) =>
@@ -22,7 +33,11 @@ function renderJourneyContent(entry: JourneyEntry) {
 
         const link = links.find((l) => l.text === segment);
         if (!link) {
-          return <span key={index}>{segment}</span>;
+          return (
+            <React.Fragment key={`text-${index}`}>
+              {renderWithBreaks(segment, `${entry.id}-segment-${index}`)}
+            </React.Fragment>
+          );
         }
 
         return (
@@ -41,7 +56,7 @@ function renderJourneyContent(entry: JourneyEntry) {
 
 function renderAIContent(content: string, links?: { text: string; href: string }[]) {
   if (!links?.length) {
-    return content;
+    return renderWithBreaks(content, "ai-content");
   }
 
   const escapedTexts = links.map((l) =>
@@ -56,7 +71,11 @@ function renderAIContent(content: string, links?: { text: string; href: string }
         if (!segment) return null;
         const link = links.find((l) => l.text === segment);
         if (!link) {
-          return <span key={index}>{segment}</span>;
+          return (
+            <React.Fragment key={`ai-text-${index}`}>
+              {renderWithBreaks(segment, `ai-segment-${index}`)}
+            </React.Fragment>
+          );
         }
         return (
           <a
@@ -191,7 +210,7 @@ export function AboutSection() {
 
                         {entry.featured.additionalContent && (
                           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                            {entry.featured.additionalContent}
+                            {renderWithBreaks(entry.featured.additionalContent, `${entry.id}-additional`)}
                           </p>
                         )}
                       </div>

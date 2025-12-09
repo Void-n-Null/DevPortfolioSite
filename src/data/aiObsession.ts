@@ -30,11 +30,11 @@ export const aiObsession: AIObsessionEntry[] = [
   },
   {
     id: "autogpt",
-    content: `In April 2023, I contributed to AutoGPT during its early explosive growth phase. This was pre-function-calling, so agents had to "think out loud" and output JSON tool calls that the system would parse and execute. I added Selenium-based web search capabilities and built a recursive summarization system for handling long documents within the 16k token limit. The models at that point were expensive and not very smart, so it was a lot of careful trial and error to avoid spending $20 by accidentally making it go into an infinite loop or on a tangent.
-I got deep into the codebase, being exposed to the early examples of what is now the standard agent loop (think -> justify -> output JSON -> execute -> observe), the tool execution system, and how it managed context across iterations. I got to sit in and contribute ideas and development philosophies durring meetings with other contributors and the creator of the project, Toran Bruce Richards. It was a star moment for me, and I think it gave me a more in depth understanding of how AI agents work and how to build them.`,
+    content: `In April 2023, I contributed to AutoGPT during its early explosive growth phase. This was pre-function-calling, pre-thinking models so GPT-4 had to "think" by being given structure to make decisions and then output JSON tool calls that the system would parse and execute. \n\n I built a recursive summarization system for compressing long documents to fit within the limited 16k token context window, and I added Selenium-based web search capabilities.The models at that point were expensive and not very smart, so it was a lot of careful trial and error to avoid spending $20 by accidentally making it go into an infinite loop or on a tangent.\n\n
+I got deep into the codebase, being exposed to the early examples of what is now the standard agent loop (think -> justify -> output JSON -> execute -> observe), the tool execution system, and how it managed context across iterations. I got to sit in and contribute ideas and development philosophies durring meetings with other contributors and the creator of the project, Toran Bruce Richards. It was a star moment for me, and I think it gave me a more in depth understanding of how AI agents work and how to build them. \n\n Below is a demo video I made for the project at the time.`,
     links: [
       {
-        text: "AutoGPT",
+        text: "AutoGPT", 
         href: "https://github.com/Significant-Gravitas/AutoGPT",
       },
     ],
