@@ -2,61 +2,56 @@ import React from "react";
 import { developerJourney, JourneyEntry } from "@/data/developerJourney";
 import { aiObsession } from "@/data/aiObsession";
 
+// ============================================================================
+// CONTENT RENDERING UTILITIES
+// ============================================================================
+
 function renderWithBreaks(text: string, keyPrefix: string) {
-  const parts = text.split("\n");
+  const parts = text.split("\n").filter(p => p.trim());
   return parts.map((part, index) => (
     <React.Fragment key={`${keyPrefix}-${index}`}>
       {part}
-      {index < parts.length - 1 && <br />}
+      {index < parts.length - 1 && <><br /><br /></>}
     </React.Fragment>
   ));
 }
 
-function renderJourneyContent(entry: JourneyEntry) {
-  const links = entry.links ?? [];
-
-  if (!links.length) {
-    return renderWithBreaks(entry.content, `${entry.id}-content`);
-  }
-
-  const escapedTexts = links.map((l) =>
-    l.text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-  );
-  const pattern = new RegExp(`(${escapedTexts.join("|")})`, "g");
-
-  const segments = entry.content.split(pattern);
-
+function InlineLink({ href, text }: { href: string; text: string }) {
   return (
-    <>
-      {segments.map((segment, index) => {
-        if (!segment) return null;
-
-        const link = links.find((l) => l.text === segment);
-        if (!link) {
-          return (
-            <React.Fragment key={`text-${index}`}>
-              {renderWithBreaks(segment, `${entry.id}-segment-${index}`)}
-            </React.Fragment>
-          );
-        }
-
-        return (
-          <a
-            key={index}
-            href={link.href}
-            className="text-primary hover:underline font-medium"
-          >
-            {link.text}
-          </a>
-        );
-      })}
-    </>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-baseline gap-0.5 text-primary font-medium 
+        hover:text-primary/80 transition-colors duration-200"
+    >
+      <span className="border-b border-primary/40 hover:border-primary/80 transition-colors">
+        {text}
+      </span>
+      <svg 
+        className="w-3 h-3 opacity-60" 
+        viewBox="0 0 12 12" 
+        fill="none"
+      >
+        <path 
+          d="M3.5 2.5H9.5V8.5M9.5 2.5L2.5 9.5" 
+          stroke="currentColor" 
+          strokeWidth="1.5" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+        />
+      </svg>
+    </a>
   );
 }
 
-function renderAIContent(content: string, links?: { text: string; href: string }[]) {
+function renderContentWithLinks(
+  content: string, 
+  links?: { text: string; href: string }[],
+  keyPrefix = "content"
+) {
   if (!links?.length) {
-    return renderWithBreaks(content, "ai-content");
+    return renderWithBreaks(content, keyPrefix);
   }
 
   const escapedTexts = links.map((l) =>
@@ -70,209 +65,177 @@ function renderAIContent(content: string, links?: { text: string; href: string }
       {segments.map((segment, index) => {
         if (!segment) return null;
         const link = links.find((l) => l.text === segment);
-        if (!link) {
-          return (
-            <React.Fragment key={`ai-text-${index}`}>
-              {renderWithBreaks(segment, `ai-segment-${index}`)}
-            </React.Fragment>
-          );
+        if (link) {
+          return <InlineLink key={index} href={link.href} text={link.text} />;
         }
         return (
-          <a
-            key={index}
-            href={link.href}
-            className="text-primary hover:underline font-medium"
-          >
-            {link.text}
-          </a>
+          <React.Fragment key={`${keyPrefix}-${index}`}>
+            {renderWithBreaks(segment, `${keyPrefix}-seg-${index}`)}
+          </React.Fragment>
         );
       })}
     </>
   );
 }
 
-export function AboutSection() {
+// ============================================================================
+// SECTION HEADER
+// ============================================================================
+
+function SectionLabel({ children, color = "primary" }: { children: React.ReactNode; color?: "primary" | "secondary" }) {
+  const colorClass = color === "secondary" ? "text-neon-secondary" : "text-primary";
   return (
-    <section id="about" className="py-16 px-8">
+    <div className="flex items-center gap-3 mb-6 sm:mb-8">
+      <span className={`text-xs uppercase tracking-[0.2em] font-medium ${colorClass}`}>
+        {children}
+      </span>
+      <div className="flex-1 h-px bg-border/40" />
+    </div>
+  );
+}
+
+// ============================================================================
+// JOURNEY BLOCK
+// ============================================================================
+
+function JourneyBlock({ entry }: { entry: JourneyEntry }) {
+  return (
+    <div className="py-4 sm:py-6 first:pt-0 last:pb-0">
+      <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+        {renderContentWithLinks(entry.content, entry.links, entry.id)}
+      </p>
+    </div>
+  );
+}
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
+export function AboutSection() {
+  // Separate journey entries
+  const fullJourneyEntries = developerJourney.filter(e => e.layout === "full");
+
+  return (
+    <section id="about" className="py-12 sm:py-16 md:py-20 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="mb-32 relative">
-          <div className="absolute -left-4 top-0 w-1 h-24 bg-gradient-to-b from-primary to-transparent" />
-          <p className="text-xs uppercase tracking-[0.3em] text-primary mb-6 ml-4">About</p>
-          <h2 className="text-5xl sm:text-6xl lg:text-8xl font-bold leading-[0.85] max-w-5xl">
-            <span className="text-foreground">Self-taught,</span>
+        
+        {/* ================================================================ */}
+        {/* HERO HEADER */}
+        {/* ================================================================ */}
+        <div className="mb-16 sm:mb-24 md:mb-32">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl  leading-[0.9]">
+            <span className="text-foreground text-red-hat-mono">Self-taught</span>
             <br />
-            <span className="text-gradient">AI-obsessed.</span>
+            <span className="text-gradient text-red-hat-mono">AI-obsessed</span>
           </h2>
         </div>
 
-        {/* Developer Journey */}
-        <div className="mb-40">
-          <div className="flex items-center gap-4 mb-16">
-            <div className="h-1.5 flex-1 bg-gradient-to-r from-transparent to-border max-w-[100px]" />
-            <h3 className="text-xl uppercase tracking-[0.2em] text-primary/80">Developer Journey</h3>
-            <div className="h-1.5 flex-1 bg-gradient-to-l from-transparent to-border" />
-          </div>
+        {/* ================================================================ */}
+        {/* DEVELOPER JOURNEY */}
+        {/* ================================================================ */}
+        <div className="mb-16 sm:mb-24 md:mb-32">
+          <SectionLabel>Developer Journey</SectionLabel>
           
-          <div className="space-y-8">
-            {developerJourney.map((entry) => {
-              const fullEntries = developerJourney.filter(e => e.layout === "full");
-              const halfEntries = developerJourney.filter(e => e.layout === "half");
-              
-              // Render full-width entries
-              if (entry.layout === "full") {
-                const fullIndex = fullEntries.findIndex(e => e.id === entry.id);
-                const gradients = [
-                  "bg-gradient-to-r from-primary/5 to-transparent",
-                  "bg-gradient-to-r from-transparent via-primary/5 to-transparent",
-                  "bg-gradient-to-l from-primary/5 to-transparent",
-                ];
-                
-                return (
-                  <div key={entry.id} className="group relative">
-                    <div className={`absolute inset-0 ${gradients[fullIndex % gradients.length]} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                    <div className="relative p-8 lg:p-12 rounded-2xl border border-border/30 hover:border-primary/20 transition-colors">
-                      <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                        {renderJourneyContent(entry)}
-                      </p>
-                    </div>
-                  </div>
-                );
-              }
-              
-              // Render half-width entries as a grid (only on first half entry)
-              if (entry.layout === "half" && halfEntries[0]?.id === entry.id) {
-                return (
-                  <div key="half-grid" className="grid lg:grid-cols-2 gap-8">
-                    {halfEntries.map((halfEntry) => (
-                      <div key={halfEntry.id} className="group relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <div className="relative p-8 rounded-2xl border border-border/30 hover:border-primary/20 transition-colors h-full">
-                          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                            {renderJourneyContent(halfEntry)}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                );
-              }
-              
-              // Skip subsequent half entries (already rendered in grid)
-              if (entry.layout === "half") return null;
-              
-              return null;
-            })}
+          <div className="divide-y divide-border/20">
+            {fullJourneyEntries.map((entry) => (
+              <JourneyBlock key={entry.id} entry={entry} />
+            ))}
           </div>
         </div>
 
-        {/* AI Obsession */}
-        <div className="mb-40">
-          <div className="flex items-center gap-4 mb-16">
-            <div className="h-1.5 flex-1 bg-gradient-to-r from-transparent to-border max-w-[100px]" />
-            <h3 className="text-xl uppercase tracking-[0.2em] text-neon-secondary/80">AI Obsession</h3>
-            <div className="h-1.5 flex-1 bg-gradient-to-l from-transparent to-border" />
-          </div>
+        {/* ================================================================ */}
+        {/* AI OBSESSION */}
+        {/* ================================================================ */}
+        <div className="mb-16 sm:mb-24 md:mb-32">
+          <SectionLabel color="secondary">AI Obsession</SectionLabel>
           
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {aiObsession.map((entry) => {
               // Featured entry with video
               if (entry.featured) {
                 return (
-                  <div key={entry.id} className="relative mt-8">
-                    <div className="absolute inset-0 bg-gradient-to-br from-neon-secondary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="bg-black/40 relative p-8 lg:p-12 rounded-2xl border border-border/30 hover:border-neon-secondary/20 transition-colors">
-                      <div className="space-y-8">
-                        <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                          {renderAIContent(entry.content, entry.links)}
-                        </p>
-                        
-                        {entry.featured.video && (
-                          <div className="relative rounded-xl overflow-hidden border border-border/50 bg-card/50">
-                            <video 
-                              className="w-full h-auto"
-                              controls
-                              preload="metadata"
-                              poster={entry.featured.video.poster}
-                            >
-                              <source src={entry.featured.video.src} type="video/mp4" />
-                              Your browser does not support the video tag.
-                            </video>
-                            {entry.featured.videoCaption && (
-                              <div className="p-4 border-t border-border/30">
-                                <p className="text-md text-muted-foreground">
-                                  {renderAIContent(entry.featured.videoCaption, entry.featured.videoCaptionLinks)}
-                                </p>
-                              </div>
-                            )}
+                  <div key={entry.id}>
+                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6 sm:mb-8">
+                      {renderContentWithLinks(entry.content, entry.links, entry.id)}
+                    </p>
+                    
+                    {entry.featured.video && (
+                      <div className="rounded-xl overflow-hidden border border-border/30 bg-black/20 mb-6 sm:mb-8">
+                        <video 
+                          className="w-full h-auto"
+                          controls
+                          preload="metadata"
+                          poster={entry.featured.video.poster}
+                        >
+                          <source src={entry.featured.video.src} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                        {entry.featured.videoCaption && (
+                          <div className="px-4 py-3 sm:px-6 sm:py-4 border-t border-border/20 bg-card/30">
+                            <p className="text-sm text-muted-foreground">
+                              {renderContentWithLinks(
+                                entry.featured.videoCaption, 
+                                entry.featured.videoCaptionLinks,
+                                `${entry.id}-caption`
+                              )}
+                            </p>
                           </div>
                         )}
-
-                        {entry.featured.additionalContent && (
-                          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                            {renderWithBreaks(entry.featured.additionalContent, `${entry.id}-additional`)}
-                          </p>
-                        )}
                       </div>
-                    </div>
+                    )}
+
+                    {entry.featured.additionalContent && (
+                      <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                        {renderWithBreaks(entry.featured.additionalContent, `${entry.id}-additional`)}
+                      </p>
+                    )}
                   </div>
                 );
               }
 
               // Regular entry
               return (
-                <div key={entry.id} className="group relative">
-                  <div className="absolute inset-0 bg-gradient-to-l from-neon-secondary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="bg-black/40 relative p-8 lg:p-12 rounded-2xl border border-border/30 hover:border-neon-secondary/20 transition-colors">
-                    <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-                      {renderAIContent(entry.content, entry.links)}
-                    </p>
-                  </div>
-                </div>
+                <p 
+                  key={entry.id} 
+                  className="text-base sm:text-lg text-muted-foreground leading-relaxed"
+                >
+                  {renderContentWithLinks(entry.content, entry.links, entry.id)}
+                </p>
               );
             })}
           </div>
         </div>
 
-        {/* Skills Grid */}
-        <div className="relative">
-          <div className="flex items-center gap-4 mb-12">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* ================================================================ */}
+        {/* SKILLS - Minimalist content, bold design */}
+        {/* ================================================================ */}
+        <div>
+          <SectionLabel>What I Work With</SectionLabel>
+          
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {[
-              {
-                label: "Specialty",
-                title: "AI Agent Systems",
-                desc: "Planning architectures, tool orchestration, context management",
-              },
-              {
-                label: "Core Stack",
-                title: "C# / .NET",
-                desc: "Backends, game engines, high-performance systems",
-              },
-              {
-                label: "Also Fluent",
-                title: "Python, TypeScript",
-                desc: "AI tooling, web apps, rapid prototyping",
-              },
-              {
-                label: "Approach",
-                title: "Iteration is Innovation",
-                desc: "Same concept, different contexts. That's how you find novel solutions.",
-              },
+              { label: "Specialty", value: "AI Agent Systems" },
+              { label: "Primary", value: "C# / .NET" },
+              { label: "Secondary", value: "Python, TypeScript" },
+              { label: "Philosophy", value: "Iterate to Innovate" },
             ].map((skill) => (
               <div 
-                key={skill.title}
-                className="group relative"
+                key={skill.label}
+                className="group relative p-4 sm:p-6 rounded-xl border border-border/30
+                  hover:border-primary/40 transition-colors duration-200"
               >
-                <div className="absolute inset-0 bg-primary/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative p-6 rounded-2xl border border-border/30 hover:border-primary/30 transition-all duration-300 h-full">
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-primary mb-3 font-medium">{skill.label}</p>
-                  <p className="text-foreground text-xl font-bold mb-3 group-hover:text-primary transition-colors">{skill.title}</p>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{skill.desc}</p>
-                </div>
+                {/* Accent line */}
+                <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                
+                <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
+                  {skill.label}
+                </p>
+                <p className="text-sm sm:text-base md:text-lg font-semibold text-foreground 
+                  group-hover:text-primary transition-colors duration-200">
+                  {skill.value}
+                </p>
               </div>
             ))}
           </div>

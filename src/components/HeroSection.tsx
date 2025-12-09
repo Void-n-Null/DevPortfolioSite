@@ -3,10 +3,10 @@ import { GradientText } from "./ui/GradientText";
 
 export function HeroSection() {
   return (
-    <section className="min-h-[calc(100vh-15rem)] flex items-end px-8 pb-24 justify-center">
+    <section className="min-h-[calc(100vh-20rem)] flex items-end px-8 pb-24 justify-center">
       <div className="max-w-7xl mx-auto w-full">
         <h1 className="text-[12vw] sm:text-[10vw] lg:text-[8vw] font-bold tracking-tighter leading-[0.85]">
-          <span className="font-raleway font-bold hover:scale-105 transition-transform inline-block tracking-[0.09em]">
+          <span className="font-red-hat-mono font-bold  hover:scale-105 transition-transform inline-block tracking-[0.1em]">
             <GradientText 
               text="BLAKE" 
               id="blake" 
@@ -15,7 +15,7 @@ export function HeroSection() {
             />
           </span>
           <br />
-          <span className="font-syncopate hover:scale-105 transition-transform inline-block">
+          <span className="font-red-hat-mono hover:scale-105 transition-transform inline-block tracking-[0.1em] leading-[0.85]">
             <GradientText 
               text="WERLINGER" 
               id="werlinger" 
