@@ -52,7 +52,7 @@ export default function Home() {
                   className="group flex items-center gap-4 text-2xl sm:text-3xl font-medium hover:text-primary transition-colors"
                 >
                   <Mail className="w-6 h-6 text-primary" />
-                  
+                  hello@blake-werlinger.com
                   <ArrowUpRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
                 
@@ -66,11 +66,11 @@ export default function Home() {
                 </a>
                 
                 <a 
-                  href="https://linkedin.com/in/blakewerlinger" 
+                  href="https://www.linkedin.com/in/blake-werlinger-757152202/" 
                   className="group flex items-center gap-4 text-2xl sm:text-3xl font-medium hover:text-primary transition-colors"
                 >
                   <Linkedin className="w-6 h-6 text-primary" />
-                  linkedin.com/in/blakewerlinger
+                  linkedin.com/blake-werlinger
                   <ArrowUpRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
               </div>

@@ -1,4 +1,4 @@
-import { Github, Mail, ArrowUpRight, ChevronDown } from "lucide-react";
+import { Github, Mail, ArrowUpRight, ChevronDown, Linkedin } from "lucide-react";
 import { GradientText } from "./ui/GradientText";
 
 export function HeroSection() {
@@ -46,6 +46,11 @@ export function HeroSection() {
               >
                 <Github className="w-5 h-5" />
                 <span>GitHub</span>
+                <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+              <a href="https://www.linkedin.com/in/blake-werlinger-757152202/" className="text-foreground hover:text-primary transition-colors flex items-center gap-2 group">
+                <Linkedin className="w-5 h-5" />
+                <span>LinkedIn</span>
                 <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
             </div>
