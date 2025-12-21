@@ -63,11 +63,10 @@ export function HeroSection() {
       
       <a 
         href="#about" 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce"
+        aria-label="Scroll to About section"
       >
-
-        
-
+        <ChevronDown className="w-8 h-8" />
       </a>
     </section>
   );
