@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 
 interface GradientTextProps {
@@ -8,6 +10,10 @@ interface GradientTextProps {
   animationDuration?: number;
 }
 
+/**
+ * Restored version of GradientText that uses SVG for the gradient outline (stroke).
+ * CSS background-clip: text can't do gradient outlines easily.
+ */
 export function GradientText({ 
   text, 
   id, 
@@ -19,10 +25,10 @@ export function GradientText({
   
   return (
     <span className={`relative inline-block select-none ${className}`}>
-      {/* Invisible text to establish layout size */}
-      <span className="opacity-0 block">{text}</span>
+      {/* Invisible text to establish layout size - essential for relative positioning */}
+      <span className="opacity-0 block whitespace-pre">{text}</span>
       
-      {/* Absolute SVG overlay for the effect */}
+      {/* SVG overlay for the gradient stroke effect */}
       <svg 
         className="absolute inset-0 w-full h-full overflow-visible"
         aria-hidden="true"
@@ -31,9 +37,8 @@ export function GradientText({
           <linearGradient 
             id={gradientId} 
             gradientUnits="userSpaceOnUse"
-            x1="0%" y1="0%" x2="100%" y2="0%"
+            x1="-50%" y1="0%" x2="150%" y2="0%"
           >
-            {/* Create a repeating pattern of colors for smooth looping */}
             {colors.map((color, i) => (
               <stop 
                 key={i} 
@@ -45,8 +50,8 @@ export function GradientText({
             <animateTransform
               attributeName="gradientTransform"
               type="translate"
-              from="-100% 0"
-              to="100% 0"
+              from="-1 0"
+              to="1 0"
               dur={`${animationDuration}s`}
               repeatCount="indefinite"
             />
@@ -60,9 +65,9 @@ export function GradientText({
           textAnchor="middle"
           fill="none"
           stroke={`url(#${gradientId})`}
-          strokeWidth="3px"
+          strokeWidth="2px"
           strokeLinejoin="round"
-          className="font-bold" // Removed tracking-tighter to avoid conflict with parent
+          className="font-bold"
           style={{
             fontSize: '100%',
           }}
@@ -73,4 +78,3 @@ export function GradientText({
     </span>
   );
 }
-
