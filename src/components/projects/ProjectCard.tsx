@@ -40,7 +40,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
         {/* Glowing border - masked by mouse position (desktop only) */}
         <div 
           ref={glowBorderRef}
-          className="hidden sm:block absolute inset-0 z-10 rounded-2xl sm:rounded-3xl border-2 border-primary pointer-events-none"
+          className="hidden sm:block absolute inset-0 z-10 rounded-2xl sm:rounded-3xl border-2 border-blue-500 pointer-events-none"
           style={{
             maskImage: "radial-gradient(300px circle at -1000px -1000px, black, transparent)",
             WebkitMaskImage: "radial-gradient(300px circle at -1000px -1000px, black, transparent)",
