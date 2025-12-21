@@ -32,7 +32,7 @@ export const developerJourney: JourneyEntry[] = [
   },
   {
     id: "dev-communities",
-    content: `I've been active in Discord game developer communities for a long time. I've built popular mods for RimWorld and Bloons TD 6, including a Banana Farmer Tower mod reviewed by ISAB (1.4M views). I've reverse-engineered Unity game systems, extended core mechanics, and shipped to active community.`,
+    content: `I've been active in Discord game developer communities for a long time. I've built popular mods for RimWorld and Bloons TD 6, including a Banana Farmer Tower mod reviewed by ISAB (1.4M views). I've reverse-engineered Unity game systems, extended core mechanics, and shipped projects.`,
     layout: "full",
     links: [
       {
@@ -51,8 +51,14 @@ export const developerJourney: JourneyEntry[] = [
   },
   {
     id: "early-stages",
-    content: `And If I can be completely honest? I love the early stages of a project almost as much as finishing it. There's something about sketching out an architecture, finding the creativity in the design as much as the implementation, weighing different algorithmic trade-offs, and figuring out how all the pieces fit together that just clicks for me. \n\n
+    content: `And If I can be completely honest? I've learned that I love the early stages of a project almost as much as finishing it. There's something about sketching out an architecture, finding the creativity in the design as much as the implementation, weighing different algorithmic trade-offs, and figuring out how all the pieces fit together that just clicks for me. \n\n
     With the Godot GOAP Technical Demo, I spent a couple nights just sitting there and profiling, finding hot paths, and fixing them, over and over again... for fun...`,
     layout: "full",
+    links: [
+      {
+        text: "Godot GOAP Technical Demo",
+        href: "https://github.com/Void-n-Null/godot-goap-demo",
+      },
+    ],
   },
 ];
