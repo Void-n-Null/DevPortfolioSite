@@ -51,7 +51,7 @@ export const aiObsession: AIObsessionEntry[] = [
           href: "https://github.com/Significant-Gravitas/AutoGPT/tree/self-feedback-rough-example",
         },
       ],
-      additionalContent: `AutoGPT ended up becoming a landmark project—it's still the 24th most starred repository on GitHub. My contributions weren't massive in terms of lines of code, but being in those early conversations about the future of AI agents shaped how I think about this space. I'm still genuinely passionate about Agentic systems like AutoGPT, Claude Code, Cursor, and other tools that are pushing the boundaries of what AI can do.`,
+      additionalContent: `AutoGPT ended up becoming a landmark project. It's still the 24th most starred repository on GitHub. My contributions weren't massive in terms of lines of code, but being in those early conversations about the future of AI agents shaped how I think about this space. I'm still genuinely passionate about Agentic systems like AutoGPT, Claude Code, Cursor, and other tools that are pushing the boundaries of what AI can do.`,
     },
   },
   {
