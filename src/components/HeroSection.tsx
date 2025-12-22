@@ -1,74 +1,70 @@
-import { Github, Mail, ArrowUpRight, ChevronDown, Linkedin } from "lucide-react";
+"use client";
+
 import { GradientText } from "./ui/GradientText";
+import { ArrowUpRight } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="min-h-[calc(100vh-20rem)] flex items-end px-8 pb-24 justify-center">
-      <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-[12vw] sm:text-[10vw] lg:text-[8vw] font-bold tracking-tighter leading-[0.85]">
-          <span className="font-mono font-bold  hover:scale-105 transition-transform inline-block tracking-[0.1em]">
-            <GradientText 
-              text="BLAKE" 
-              id="blake" 
-              colors={["var(--primary)", "var(--neon-secondary)", "var(--primary)"]} 
-              animationDuration={8}
-            />
+    <section className="relative min-h-screen flex flex-col justify-center px-6 sm:px-8 overflow-hidden">
+
+      <div className="max-w-7xl mx-auto w-full relative">
+
+
+        {/* Main heading */}
+        <h1 className="mb-8 animate-fade-in-up">
+          <span className="block text-[14vw] sm:text-[12vw] lg:text-[10vw] xl:text-[9vw] font-mono font-bold tracking-tighter leading-[0.85]">
+            <span className="inline-block hover:scale-[1.02] transition-transform duration-300 origin-left">
+              <GradientText 
+                text="BLAKE" 
+                id="blake" 
+                colors={["var(--primary)", "var(--neon-secondary)", "var(--primary)"]} 
+
+              />
+            </span>
           </span>
-          <br />
-          <span className="font-mono hover:scale-105 transition-transform inline-block tracking-[0.1em] leading-[0.85]">
-            <GradientText 
-              text="WERLINGER" 
-              id="werlinger" 
-              colors={["var(--neon-secondary)", "var(--primary)", "var(--neon-secondary)"]} 
-              animationDuration={10}
-            />
+          <span className="block text-[14vw] sm:text-[12vw] lg:text-[10vw] xl:text-[9vw] font-mono font-bold tracking-tighter leading-[0.85] -mt-2 sm:-mt-4">
+            <span className="inline-block hover:scale-[1.02] transition-transform duration-300 origin-left">
+              <GradientText 
+                text="WERLINGER" 
+                id="werlinger" 
+                colors={["var(--neon-secondary)", "var(--primary)", "var(--neon-secondary)"]} 
+
+              />
+            </span>
           </span>
         </h1>
         
-        <div className="mt-12 grid lg:grid-cols-6 gap-8 lg:gap-24">
-          <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-full col-span-4">
-          Self-taught since 2015. Early AutoGPT contributor.  C#, Python, and AI agents.
+        {/* Tagline */}
+        <div className="max-w-2xl animate-fade-in-up delay-200">
+          <p className="text-xl sm:text-2xl lg:text-3xl text-muted-foreground leading-relaxed mb-8">
+            Self-taught since 2015. Early{" "}
+            <span className="text-foreground font-medium">AutoGPT contributor</span>.{" "}
+            Building with C#, Python, and AI agents.
           </p>
-
-          <div className="flex flex-col gap-6 lg:items-end col-span-2">
-            <div className="flex items-center gap-6 ">
-              <a 
-                href="mailto:hello@blake-werlinger.com" 
-                className="text-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-              >
-                <Mail className="w-5 h-5" />
-                <span>Email</span>
-                <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
-              <a 
-                href="https://github.com/Void-n-Null" 
-                className="text-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-              >
-                <Github className="w-5 h-5" />
-                <span>GitHub</span>
-                <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
-              <a href="https://www.linkedin.com/in/blake-werlinger-757152202/" className="text-foreground hover:text-primary transition-colors flex items-center gap-2 group">
-                <Linkedin className="w-5 h-5" />
-                <span>LinkedIn</span>
-                <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
-            </div>
-            <p className="text-sm text-muted-foreground lg:text-right">
-              Open to contract work · Prefer async
-            </p>
+          
+          <div className="flex flex-wrap items-center gap-4">
+            <a
+              href="#work"
+              className="group inline-flex items-center gap-3 px-6 py-3 bg-primary text-primary-foreground font-medium rounded-full hover:bg-primary/90 transition-all duration-300"
+            >
+              View my work
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+            <a
+            href="#contact"
+              className="group inline-flex items-center gap-2 px-6 py-3 text-muted-foreground hover:text-foreground transition-colors duration-200"
+            >
+              <span className="border-b border-transparent group-hover:border-current transition-colors">
+                Get in touch
+              </span>
+            </a>
           </div>
         </div>
+
+
       </div>
-      
-      <a 
-        href="#about" 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce"
-        aria-label="Scroll to About section"
-      >
-        <ChevronDown className="w-8 h-8" />
-      </a>
+
+
     </section>
   );
 }
-
