@@ -1,6 +1,10 @@
 import React from "react";
-import { developerJourney, JourneyEntry } from "@/data/developerJourney";
-import { aiObsession } from "@/data/aiObsession";
+import { developerJourneySections } from "@/data/developerJourney";
+import { aiObsessionSections } from "@/data/aiObsession";
+import { ContentSection, ContentEntry } from "@/data/schema";
+import { SimpleIcon } from "@/components/ui/SimpleIcon";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 // ============================================================================
 // CONTENT RENDERING UTILITIES
@@ -79,14 +83,25 @@ function renderContentWithLinks(
 }
 
 // ============================================================================
-// SECTION HEADER
+// SHARED COMPONENTS
 // ============================================================================
 
-function SectionLabel({ children, color = "primary" }: { children: React.ReactNode; color?: "primary" | "secondary" }) {
-  const colorClass = color === "secondary" ? "text-neon-secondary" : "text-primary";
+function SectionLabel({ 
+  children, 
+  color = "primary" 
+}: { 
+  children: React.ReactNode; 
+  color?: "primary" | "secondary" | string 
+}) {
+  const colorClass = 
+    color === "secondary" ? "text-neon-secondary" : 
+    color === "primary" ? "text-primary" : "";
+  
+  const style = color !== "primary" && color !== "secondary" ? { color } : {};
+
   return (
     <div className="flex items-center gap-3 mb-6 sm:mb-8">
-      <span className={`text-xs uppercase tracking-[0.2em] font-medium ${colorClass}`}>
+      <span className={`text-xs uppercase tracking-[0.2em] font-medium ${colorClass}`} style={style}>
         {children}
       </span>
       <div className="flex-1 h-px bg-border/40" />
@@ -94,16 +109,139 @@ function SectionLabel({ children, color = "primary" }: { children: React.ReactNo
   );
 }
 
-// ============================================================================
-// JOURNEY BLOCK
-// ============================================================================
+function SubsectionHeader({
+  title,
+  icon,
+}: {
+  title: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-3 mb-4 sm:mb-6">
+      <span
+        className="inline-flex items-center justify-center w-7 h-7 rounded-md  "
+        aria-hidden="true"
+      >
+        <span className="w-8 h-8">{icon}</span>
+      </span>
+      <h3 className="text-sm sm:text-base font-semibold text-foreground tracking-wide">
+        {title}
+      </h3>
+      <div className="flex-1 h-px bg-border/30" />
+    </div>
+  );
+}
 
-function JourneyBlock({ entry }: { entry: JourneyEntry }) {
+function ContentBlock({ entry }: { entry: ContentEntry }) {
   return (
     <div className="py-4 sm:py-6 first:pt-0 last:pb-0">
-      <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-        {renderContentWithLinks(entry.content, entry.links, entry.id)}
-      </p>
+      <div className="flex flex-wrap items-center gap-2 mb-3">
+        {entry.metadata?.badge && (
+          <Badge variant="outline" className="text-[10px] uppercase tracking-wider px-2 py-0 h-5 bg-primary/5 border-primary/20 text-primary">
+            {entry.metadata.badge}
+          </Badge>
+        )}
+        {entry.metadata?.date && (
+          <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">
+            {entry.metadata.date}
+          </span>
+        )}
+      </div>
+      
+      <div className="space-y-6 sm:space-y-8">
+        <div>
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            {renderContentWithLinks(entry.content, entry.links, entry.id)}
+          </p>
+
+          {entry.featured && (
+            <div className="mt-6 sm:mt-8">
+              {entry.featured.video && (
+                <div className="rounded-xl overflow-hidden border border-border/30 bg-black/20 mb-6">
+                  <video
+                    className="w-full h-auto"
+                    controls
+                    preload="metadata"
+                    poster={entry.featured.video.poster}
+                  >
+                    <source src={entry.featured.video.src} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  {entry.featured.videoCaption && (
+                    <div className="px-4 py-3 sm:px-6 sm:py-4 border-t border-border/20 bg-card/30">
+                      <p className="text-sm text-muted-foreground">
+                        {renderContentWithLinks(
+                          entry.featured.videoCaption,
+                          entry.featured.videoCaptionLinks,
+                          `${entry.id}-caption`
+                        )}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {entry.featured.image && (
+                <div className="rounded-xl overflow-hidden border border-border/30 bg-black/20 mb-6">
+                  <Image
+                    src={entry.featured.image.src}
+                    alt={entry.featured.image.alt}
+                    width={1200}
+                    height={675}
+                    className="w-full h-auto"
+                  />
+                  {entry.featured.image.caption && (
+                    <div className="px-4 py-3 sm:px-6 sm:py-4 border-t border-border/20 bg-card/30">
+                      <p className="text-sm text-muted-foreground">
+                        {entry.featured.image.caption}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {entry.featured.additionalContent && (
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                  {renderWithBreaks(
+                    entry.featured.additionalContent,
+                    `${entry.id}-additional`
+                  )}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RenderSection({ section }: { section: ContentSection }) {
+  const iconNode =
+    section.icon.kind === "simple" ? (
+      <SimpleIcon
+        icon={section.icon.icon}
+        className="w-full h-full"
+        style={{ color: `#${section.icon.icon.hex}`, ...section.icon.style }}
+      />
+    ) : (
+      <Image
+        src={section.icon.src}
+        alt={section.icon.alt}
+        width={16}
+        height={16}
+        className="w-full h-full object-contain"
+      />
+    );
+
+  return (
+    <div key={section.id}>
+      <SubsectionHeader title={section.title} icon={iconNode} />
+      <div className="divide-y divide-border/20">
+        {section.entries.map((entry) => (
+          <ContentBlock key={entry.id} entry={entry} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -113,8 +251,16 @@ function JourneyBlock({ entry }: { entry: JourneyEntry }) {
 // ============================================================================
 
 export function AboutSection() {
-  // Separate journey entries
-  const fullJourneyEntries = developerJourney.filter(e => e.layout === "full");
+  const journeySections = (developerJourneySections as ContentSection[])
+    .map((section) => ({
+      ...section,
+      entries: section.entries.filter((e) => e.layout !== "half"),
+    }))
+    .filter((section) => section.entries.length > 0);
+
+  const aiSections = (aiObsessionSections as ContentSection[]).filter(
+    (section) => section.entries.length > 0
+  );
 
   return (
     <section id="about" className="py-12 sm:py-16 md:py-20 px-4 sm:px-8">
@@ -125,9 +271,9 @@ export function AboutSection() {
         {/* ================================================================ */}
         <div className="mb-16 sm:mb-24 md:mb-32">
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl  leading-[0.9]">
-            <span className="text-foreground text-red-hat-mono">Self-taught</span>
+            <span className="text-foreground font-mono">Self-taught</span>
             <br />
-            <span className="text-gradient text-red-hat-mono">AI-obsessed</span>
+            <span className="text-gradient font-mono">AI-obsessed</span>
           </h2>
         </div>
 
@@ -137,9 +283,9 @@ export function AboutSection() {
         <div className="mb-16 sm:mb-24 md:mb-32">
           <SectionLabel>Developer Journey</SectionLabel>
           
-          <div className="divide-y divide-border/20">
-            {fullJourneyEntries.map((entry) => (
-              <JourneyBlock key={entry.id} entry={entry} />
+          <div className="space-y-10 sm:space-y-12">
+            {journeySections.map((section) => (
+              <RenderSection key={section.id} section={section} />
             ))}
           </div>
         </div>
@@ -150,60 +296,10 @@ export function AboutSection() {
         <div className="mb-16 sm:mb-24 md:mb-32">
           <SectionLabel color="secondary">AI Obsession</SectionLabel>
           
-          <div className="space-y-6 sm:space-y-8">
-            {aiObsession.map((entry) => {
-              // Featured entry with video
-              if (entry.featured) {
-                return (
-                  <div key={entry.id}>
-                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6 sm:mb-8">
-                      {renderContentWithLinks(entry.content, entry.links, entry.id)}
-                    </p>
-                    
-                    {entry.featured.video && (
-                      <div className="rounded-xl overflow-hidden border border-border/30 bg-black/20 mb-6 sm:mb-8">
-                        <video 
-                          className="w-full h-auto"
-                          controls
-                          preload="metadata"
-                          poster={entry.featured.video.poster}
-                        >
-                          <source src={entry.featured.video.src} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
-                        {entry.featured.videoCaption && (
-                          <div className="px-4 py-3 sm:px-6 sm:py-4 border-t border-border/20 bg-card/30">
-                            <p className="text-sm text-muted-foreground">
-                              {renderContentWithLinks(
-                                entry.featured.videoCaption, 
-                                entry.featured.videoCaptionLinks,
-                                `${entry.id}-caption`
-                              )}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {entry.featured.additionalContent && (
-                      <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                        {renderWithBreaks(entry.featured.additionalContent, `${entry.id}-additional`)}
-                      </p>
-                    )}
-                  </div>
-                );
-              }
-
-              // Regular entry
-              return (
-                <p 
-                  key={entry.id} 
-                  className="text-base sm:text-lg text-muted-foreground leading-relaxed"
-                >
-                  {renderContentWithLinks(entry.content, entry.links, entry.id)}
-                </p>
-              );
-            })}
+          <div className="space-y-10 sm:space-y-12">
+            {aiSections.map((section) => (
+              <RenderSection key={section.id} section={section} />
+            ))}
           </div>
         </div>
 
