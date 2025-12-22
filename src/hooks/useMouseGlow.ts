@@ -64,7 +64,6 @@ export function useMouseGlow(
       });
     };
 
-    const target = container || window;
     
     // If it's the window, we don't need mouseenter since the whole viewport is the target
     if (container) {
