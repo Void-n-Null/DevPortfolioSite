@@ -8,7 +8,7 @@ export interface JourneyEntry {
   }[];
 }
 
-import { siDiscord, siGodotengine, siScratch, siUnity } from "simple-icons";
+import { siGodotengine, siPython, siScratch, siUnity } from "simple-icons";
 import { ContentSection, ContentEntry } from "./schema";
 
 export const developerJourneySections: ContentSection[] = [
@@ -19,7 +19,7 @@ export const developerJourneySections: ContentSection[] = [
     entries: [
       {
         id: "scratch-start",
-        content: `I got my start with Scratch around age 11 (2015). Nothing fancy, just dragging blocks around trying to make a clone of "Cookie Clicker" that didn't suck. I spent way too many hours on it, but that's where I learned programming fundamentals.`,
+        content: `I got my start with Scratch around age 11. Nothing fancy, just dragging blocks around trying to make a clone of "Cookie Clicker" that didn't suck. I spent way too many hours on it, but that's where I learned programming fundamentals: variables, loops, and the satisfaction of "Making a Game".`,
         layout: "full",
         metadata: {
           badge: "First Steps",
@@ -41,63 +41,74 @@ export const developerJourneySections: ContentSection[] = [
     entries: [
       {
         id: "unity-csharp",
-        content: `By 14 (2018), I had moved to Unity Engine and C#. My first real project was "Spirit Steve". Which boiled down to a freecam first person game where you fly around a city and can interact with NPCs that are path finding. Learning how to use Unity's pathfinding system was my first real challenge. Most of my Unity projects never saw the light of day, but I learned a lot from those kinds of projects. Over the years, I built 100+ small or incomplete Unity projects. It's not because I abandoned them, but because building is how I learn. Each project taught me something new, and I moved on when I'd explored what I thought was interesting, and learned the skills necessary to test my ideas.`,
+        content: `By 14 (2018), I moved to Unity and C#. Over the next few years, I built 100+ prototypes exploring A* pathfinding, procedural terrain generation, data serialization and saving, a whole host of software design patterns, and both 2D and 3D systems. Most never shipped - they were learning exercises. I'd hit the interesting technical problem, solve it, then move on. Or I'd have a vision for the next GTA-5 and would burn myself out after a few weeks of building. \n\n Eventually, I started using my skills for game modding. I would use systems like MelonLoader to decompile IL2CPP executables and Harmony to extend RimWorld and Bloons TD 6. My Banana Farmer Tower mod for Bloons was featured by ISAB in a video with 1.4M views and downloaded by 180k players. It was the first big project that I properly shipped and got recognized for. I also made some popular mods for Rivals of Aether (100k downloads), though they were a lot more silly and less technically interesting.`,
         layout: "full",
         links: [
           {
             text: "Unity Engine",
             href: "https://unity.com/",
           },
+          {
+            text: "ISAB in a video with 1.4M views",
+            href: "https://www.youtube.com/watch?v=4zgYe_OleeU",
+          },
+          {
+            text: "180k players",
+            href: "https://github-release-stats.ghostbyte.dev/Void-n-Null/Banana-Farmer-Tower"
+          },
+          {
+            text: "mods for Rivals of Aether",
+            href: "https://steamcommunity.com/sharedfiles/filedetails/?id=1989766083",
+          }
         ],
       },
-      {
-        id: "learning-pattern",
-        content: `I learned more from building those random projects than I did from any tutorial. That's kind of been my pattern ever since: I learn fastest when I'm building something I actually want to exist. I don't learn well from tutorials, I'm legitimately entertained by the process of programming and iterating. I have spent many sleepless nights fixing something that I had the vision for, but had to develop the skills required to build it, and trial and error was as fun as it was frustrating.`,
-        layout: "full",
-      },
+
     ],
   },
   {
-    id: "communities",
-    title: "Communities + modding",
-    icon: { kind: "simple", icon: siDiscord },
+    id: "python",
+    title: "Python (2021)",
+    icon: { kind: "simple", icon: siPython },
     entries: [
       {
-        id: "dev-communities",
-        content: `I've been active in Discord game developer communities for a long time. I've built popular mods for RimWorld and Bloons TD 6, including a Banana Farmer Tower mod reviewed by ISAB (1.4M views). I've reverse-engineered Unity game systems, extended core mechanics, and shipped projects.`,
-        layout: "full",
-        links: [
-          {
-            text: "RimWorld",
-            href: "https://store.steampowered.com/app/294100/RimWorld/",
-          },
-          {
-            text: "Bloons TD 6",
-            href: "https://store.steampowered.com/app/960090/Bloons_TD_6/",
-          },
-          {
-            text: "Banana Farmer Tower mod reviewed by ISAB",
-            href: "https://www.youtube.com/watch?v=4zgYe_OleeU",
-          },
-        ],
+        id: "python-start",
+        content: `In my senior year of high school, I spent around 2 months teaching myself Python to build a Jarvis-style voice assistant. I used an existing PyTorch library for intent recognition, trained it with custom training data, and learned a lot about ML training in order to make it consistent. \n\n This was before LLMs were small or good enough to run locally, so it was really just a bit of ML to infer intent and pair a request to the closest matching command. It actually did pretty good 60% of the time. It was a relatively straightforward project but I learned Python, NLP fundamentals, and how frustrating ML training can be when your dataset is tiny and your laptop has 4 cores and no GPU. \n\nIt was my first time working outside of C# and Unity, and it taught me that I could pick up new languages and ecosystems when I had a concrete goal."`,
       },
     ],
   },
   {
     id: "systems",
-    title: "Systems + performance (Godot GOAP demo)",
+    title: "Performance obsession (Godot GOAP)",
     icon: { kind: "simple", icon: siGodotengine },
     entries: [
       {
-        id: "early-stages",
-        content: `And if I can be completely honest: I've learned that I love the early stages of a project almost as much as finishing it. There's something about sketching out an architecture, finding the creativity in the design as much as the implementation, weighing different algorithmic trade-offs, and figuring out how all the pieces fit together that just clicks for me.\n\nWith the Godot GOAP Technical Demo, I spent a couple of nights just sitting there profiling, finding hot paths, and fixing them over and over again... for fun...`,
+        id: "performance-optimization",
+        content: `I genuinely enjoy profiling. Finding a hot path, fixing it, and watching the metrics drop is deeply satisfying. It's puzzle-solving with immediate, measurable feedback.\n\nWith my Godot GOAP (Goal-Oriented Action Planning) system, I spent two months obsessively optimizing the AI planner for fun. Nobody asked me to. I just couldn't let it be slow. By implementing a two-stage approach with backward dependency analysis, I pruned up to 70% of the search space before even starting the A* search.\n\nCombined with zero-allocation patterns and cached state transitions, the results were dramatic: 70% reduction in planning time, 139.6% increase in throughput, and 10,000 concurrent agents each making intelligent decisions in just 0.020ms. That's the kind of performance that keeps rendering and physics budgets healthy.`,
         layout: "full",
         links: [
           {
-            text: "Godot GOAP Technical Demo",
+            text: "Godot GOAP (Goal-Oriented Action Planning) system",
             href: "https://github.com/Void-n-Null/godot-goap-demo",
           },
         ],
+        featured: {
+          imageGallery: {
+            images: [
+              {
+                src: "/planning_time_graph.png",
+                alt: "Planning time optimization graph showing reduction from 110ms to 33ms",
+                caption: "Planning time reduced by 70% through algorithmic pruning",
+              },
+              {
+                src: "/throughput_graph.png",
+                alt: "Throughput comparison showing 139.6% increase in plans per second",
+                caption: "Throughput increased by 139.6% via zero-allocation patterns",
+              },
+            ],
+            columns: 2,
+          },
+          additionalContent: `The graphs compare the Initial Feature-Complete Baseline and the Production-Optimized Head. This wasn't about over-engineering; it was about respecting the performance budget to ensure complex AI never steals from the rendering or physics thread.`,
+        },
       },
     ],
   },

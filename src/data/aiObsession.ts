@@ -1,29 +1,15 @@
-import { siCursor, siOpenrouter, siPytorch } from "simple-icons";
+import { siCursor, siOpenrouter } from "simple-icons";
 import { ContentSection, ContentEntry } from "./schema";
 
 export const aiObsessionSections: ContentSection[] = [
   {
     id: "curiosity",
-    title: "Curiosity (pre-ChatGPT)",
+    title: "Early curiosity (pre-ChatGPT)",
     icon: { kind: "simple", icon: siOpenrouter },
     entries: [
       {
         id: "ai-fascination",
-        content: `I've been fascinated by AI since before ChatGPT dropped in late 2022. I was experimenting with GPT-3 Davinci back in high school. When LLMs started getting good, I was hooked. I wanted to use AI everywhere.`,
-      },
-    ],
-  },
-  {
-    id: "pytorch",
-    title: "Python + PyTorch (voice assistant)",
-    icon: { kind: "simple", icon: siPytorch },
-    entries: [
-      {
-        id: "jarvis-assistant",
-        content: `Back in my senior year of high school, I taught myself Python to build a Jarvis-style voice assistant. I used an existing PyTorch library for voice recognition, tweaked it, and trained it with custom data through a lot of trial and error.\n\nThis was before LLMs were popular or small enough to run on consumer hardware. So it was really just something that would react to a certain keyword, with a bit of ML to infer what you might have been trying to say. It barely worked, but I learned a lot about Python and NLP fundamentals at the same time.`,
-        metadata: {
-          date: "2021-2022",
-        },
+        content: `I've been obsessed with AI since before it was mainstream. Back in high school, I was experimenting with GPT-3 Davinci through the API, trying to figure out how to integrate language models into my projects. I built that voice assistant in Python because I wanted AI everywhere, even when the tech wasn't quite ready.\n\nWhen ChatGPT dropped in late 2022, I was stunned. The jump in capability was massive. I immediately dove in and spent months learning prompt engineering, tokenization, context window management, and all the logistics of working with LLMs. I was thrilled to finally have access to models powerful enough to build the kinds of systems I'd been imagining.`,
       },
     ],
   },
@@ -34,7 +20,7 @@ export const aiObsessionSections: ContentSection[] = [
     entries: [
       {
         id: "autogpt",
-        content: `In April 2023, I contributed to AutoGPT during its early explosive growth phase. This was pre-function-calling and pre-thinking-models, so GPT-4 had to "think" by being given structure to make decisions and then output JSON tool calls that the system would parse and execute.\n\nI built a recursive summarization system for compressing long documents to fit within the limited 16k token context window, and I added Selenium-based web search capabilities. The models at that point were expensive and not very smart, so it took careful trial and error to avoid spending $20 because an agent wandered into an infinite loop.\n\nI got deep into the codebase and saw early versions of what is now the standard agent loop (think → justify → output JSON → execute → observe), the tool execution system, and how it managed context across iterations. I also got to sit in and contribute ideas during meetings with other contributors and the creator of the project, Toran Bruce Richards. It was a star moment for me, and it gave me a much deeper understanding of how AI agents work and how to build them.\n\nBelow is a demo video I made for the project at the time.`,
+        content: `In April 2023, I contributed to AutoGPT during its explosive early growth. This was before function calling, before thinking models. GPT-4 had to "think" by outputting structured JSON tool calls that the system would parse and execute.\n\nI built a recursive summarization system to compress long documents into the 16k token context window, and I added Selenium-based web search. The models were expensive and not very smart, so it took careful trial and error to avoid burning $20 on an agent stuck in an infinite loop.\n\nI got deep into the codebase and saw early versions of what's now the standard agent loop: think, justify, output JSON, execute, observe. I sat in meetings with other contributors and the project creator, Toran Bruce Richards, contributing ideas about the future of AI agents. It was a defining moment. I got to help shape a project that now has 180k stars on GitHub.\n\nBelow is a demo video I made at the time.`,
         links: [
           {
             text: "AutoGPT",
@@ -44,7 +30,6 @@ export const aiObsessionSections: ContentSection[] = [
         featured: {
           video: {
             src: "/autogpt-blake-demo.mp4",
-            poster: "/autogpt.webp",
           },
           videoCaption: `My demo video was featured in AutoGPT's official README for several months during development. Despite the rough audio quality from my laptop mic.`,
           videoCaptionLinks: [
@@ -65,7 +50,7 @@ export const aiObsessionSections: ContentSection[] = [
     entries: [
       {
         id: "ai-in-dev",
-        content: `These days, I use AI extensively in my own development. Cursor, Claude Code, Windsurf, and other tools are part of my daily workflow. I make the architectural decisions and design the systems; AI helps with implementation. I'm upfront about this because it's how modern development works, and honestly, you'd probably notice anyway. The difference is that I can explain every choice in my codebase because I made them.\n\nI only "vibe code" things that are private tools for myself. Anything that users will touch would make me paranoid if I left it up to AI. I've been coding as a hobby since 2017, long before AI became useful as an accelerator, so I avoid using it as a mental replacement.`,
+        content: `I use AI extensively in my development workflow. Cursor, Claude Code, and Windsurf are daily tools.\n\nI'm upfront about this because it's the reality of modern development. I'm not a developer who just prompts until something works. I'm not afraid to use AI because I make sure I can defend every choice, and every decision in my codebase. I know why it's structured the way it is. I only "vibe code" private tools for myself. Anything users touch makes me paranoid if I let AI drive. I've been writing code as a hobby since 2017, long before AI was useful. I use it as a code accelerator, a code reviewer, not a replacement for understanding and purposeful design.\n\nIt's good though: AI has turned every project into a learning opportunity. If I encounter a new library, run into a new concept, or an obscure problem I don't understand, I use AI to explain the underlying principles and show me examples. It has fundamentally shortened my time to learn any new technology. It's \"Search Stack-Overflow\" on steroids. \n\n My personal favorite tool is Cursor, because it's still a fully-featured IDE with all the tools I need to build anything I want. The pricing is reasonable for a professional tool, and the agent is well designed and relatively bug-free. But I've also used Windsurf, Claude Code, Gemini CLI, OpenAI Codex, and other tools extensively. Though I heavily prefer Cursor.`,
       },
     ],
   },
