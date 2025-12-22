@@ -1,10 +1,11 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { developerJourneySections } from "@/data/developerJourney";
 import { aiObsessionSections } from "@/data/aiObsession";
 import { ContentSection, ContentEntry } from "@/data/schema";
 import { SimpleIcon } from "@/components/ui/SimpleIcon";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 
 // ============================================================================
 // CONTENT RENDERING UTILITIES
@@ -83,6 +84,99 @@ function renderContentWithLinks(
 }
 
 // ============================================================================
+// IMAGE GALLERY WITH FULLSCREEN
+// ============================================================================
+
+function ImageGallery({ 
+  images, 
+  columns 
+}: { 
+  images: { src: string; alt: string; caption?: string }[]; 
+  columns: 1 | 2 | 3;
+}) {
+  const [fullscreenImage, setFullscreenImage] = useState<{ src: string; alt: string; caption?: string } | null>(null);
+
+  const gridCols = {
+    1: "grid-cols-1",
+    2: "grid-cols-1 md:grid-cols-2",
+    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+  };
+
+  return (
+    <>
+      <div className={`grid ${gridCols[columns]} gap-4 mb-6`}>
+        {images.map((image, index) => (
+          <button
+            key={index}
+            onClick={() => setFullscreenImage(image)}
+            className="group relative rounded-xl overflow-hidden border border-border/30 bg-black/20 
+              hover:border-primary/40 transition-all duration-200 cursor-zoom-in"
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              width={1200}
+              height={675}
+              className="w-full h-auto transition-transform duration-200 group-hover:scale-[1.02]"
+            />
+            {image.caption && (
+              <div className="px-4 py-3 border-t border-border/20 bg-card/30">
+                <p className="text-xs sm:text-sm text-muted-foreground text-left">
+                  {image.caption}
+                </p>
+              </div>
+            )}
+            {/* Zoom indicator */}
+            <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm rounded-lg px-2 py-1 
+              opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+              </svg>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Fullscreen Modal */}
+      {fullscreenImage && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setFullscreenImage(null)}
+        >
+          <button
+            className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+            onClick={() => setFullscreenImage(null)}
+            aria-label="Close fullscreen"
+          >
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
+          <div className="max-w-7xl max-h-[90vh] w-full">
+            <Image
+              src={fullscreenImage.src}
+              alt={fullscreenImage.alt}
+              width={1920}
+              height={1080}
+              className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+            />
+            {fullscreenImage.caption && (
+              <div className="mt-4 px-4 py-3 bg-card/80 backdrop-blur-sm rounded-lg border border-border/30">
+                <p className="text-sm text-muted-foreground text-center">
+                  {fullscreenImage.caption}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+// ============================================================================
 // SHARED COMPONENTS
 // ============================================================================
 
@@ -101,7 +195,7 @@ function SectionLabel({
 
   return (
     <div className="flex items-center gap-3 mb-6 sm:mb-8">
-      <span className={`text-xs uppercase tracking-[0.2em] font-medium ${colorClass}`} style={style}>
+      <span className={`text-lg uppercase tracking-[0.2em] font-medium ${colorClass}`} style={style}>
         {children}
       </span>
       <div className="flex-1 h-px bg-border/40" />
@@ -124,7 +218,7 @@ function SubsectionHeader({
       >
         <span className="w-8 h-8">{icon}</span>
       </span>
-      <h3 className="text-sm sm:text-base font-semibold text-foreground tracking-wide">
+      <h3 className="text-lg sm:text-xl font-semibold text-foreground tracking-wide">
         {title}
       </h3>
       <div className="flex-1 h-px bg-border/30" />
@@ -136,21 +230,11 @@ function ContentBlock({ entry }: { entry: ContentEntry }) {
   return (
     <div className="py-4 sm:py-6 first:pt-0 last:pb-0">
       <div className="flex flex-wrap items-center gap-2 mb-3">
-        {entry.metadata?.badge && (
-          <Badge variant="outline" className="text-[10px] uppercase tracking-wider px-2 py-0 h-5 bg-primary/5 border-primary/20 text-primary">
-            {entry.metadata.badge}
-          </Badge>
-        )}
-        {entry.metadata?.date && (
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">
-            {entry.metadata.date}
-          </span>
-        )}
       </div>
       
       <div className="space-y-6 sm:space-y-8">
         <div>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+          <p className="text-md sm:text-lg text-muted-foreground leading-relaxed">
             {renderContentWithLinks(entry.content, entry.links, entry.id)}
           </p>
 
@@ -168,14 +252,25 @@ function ContentBlock({ entry }: { entry: ContentEntry }) {
                     Your browser does not support the video tag.
                   </video>
                   {entry.featured.videoCaption && (
-                    <div className="px-4 py-3 sm:px-6 sm:py-4 border-t border-border/20 bg-card/30">
-                      <p className="text-sm text-muted-foreground">
-                        {renderContentWithLinks(
-                          entry.featured.videoCaption,
-                          entry.featured.videoCaptionLinks,
-                          `${entry.id}-caption`
-                        )}
-                      </p>
+                    <div className="px-6 py-8 sm:px-10 sm:py-10 border-t border-border/20 bg-primary/5 relative overflow-hidden group/caption">
+                      {/* Decorative background accent */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl -translate-y-1/2 translate-x-1/2" />
+                      
+                      <div className="relative">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                          <span className="text-[10px] font-mono text-primary uppercase tracking-[0.2em] font-bold">
+                            Featured Achievement
+                          </span>
+                        </div>
+                        <p className="text-xl sm:text-2xl font-medium text-foreground leading-snug">
+                          {renderContentWithLinks(
+                            entry.featured.videoCaption,
+                            entry.featured.videoCaptionLinks,
+                            `${entry.id}-caption`
+                          )}
+                        </p>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -198,6 +293,13 @@ function ContentBlock({ entry }: { entry: ContentEntry }) {
                     </div>
                   )}
                 </div>
+              )}
+
+              {entry.featured.imageGallery && (
+                <ImageGallery
+                  images={entry.featured.imageGallery.images}
+                  columns={entry.featured.imageGallery.columns ?? 2}
+                />
               )}
 
               {entry.featured.additionalContent && (
@@ -235,7 +337,7 @@ function RenderSection({ section }: { section: ContentSection }) {
     );
 
   return (
-    <div key={section.id}>
+    <div key={section.id} id={section.id} className="scroll-mt-32">
       <SubsectionHeader title={section.title} icon={iconNode} />
       <div className="divide-y divide-border/20">
         {section.entries.map((entry) => (
@@ -264,7 +366,7 @@ export function AboutSection() {
 
   return (
     <section id="about" className="py-12 sm:py-16 md:py-20 px-4 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[70vw] mx-auto">
         
         {/* ================================================================ */}
         {/* HERO HEADER */}

@@ -15,7 +15,7 @@ export function ProjectsSection() {
 
   return (
     <section id="work" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[80vw] mx-auto">
         {/* Header */}
         <div className="mb-8 sm:mb-10 md:mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
@@ -64,7 +64,7 @@ export function ProjectsSection() {
         {/* More projects hint */}
         <div className="mt-8 sm:mt-10 md:mt-12 text-center">
           <p className="text-sm text-muted-foreground/60">
-            <span className="hidden sm:inline">These are highlights — </span>
+            <span className="hidden sm:inline">These are highlights </span>
             More projects on{" "}
             <a 
               href="https://github.com/Void-n-Null" 

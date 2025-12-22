@@ -2,8 +2,10 @@
 
 import { useRef } from "react";
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import { useMouseGlow } from "@/hooks/useMouseGlow";
 import type { Project } from "@/data/projects_data";
+import { SimpleIcon } from "@/components/ui/SimpleIcon";
 
 interface ProjectCardProps {
   project: Project;
@@ -145,7 +147,7 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
             <div className="flex flex-wrap gap-2 sm:gap-2.5 mt-auto">
               {project.tech.map((tech) => (
                 <span
-                  key={tech}
+                  key={tech.name}
                   className="inline-flex items-center gap-1.5
                     px-3 py-1.5 sm:px-4 sm:py-2
                     text-[11px] sm:text-xs font-mono tracking-wide
@@ -158,7 +160,16 @@ export function ProjectCard({ project, onHoverStart, onHoverEnd }: ProjectCardPr
                     backdrop-blur-sm
                     shadow-sm"
                 >
-                  {tech}
+                  {tech.icon && (
+                    <div className="text-white/40 group-hover:text-white/70 transition-colors">
+                      {tech.icon.kind === "simple" ? (
+                        <SimpleIcon icon={tech.icon.icon} className="w-3.5 h-3.5" />
+                      ) : (
+                        <Image src={tech.icon.src} alt={tech.icon.alt} width={14} height={14} className="w-3.5 h-3.5 object-contain brightness-0 invert opacity-40 group-hover:opacity-70 transition-opacity" />
+                      )}
+                    </div>
+                  )}
+                  {tech.name}
                 </span>
               ))}
             </div>
