@@ -6,7 +6,7 @@ export function HeroSection() {
     <section className="min-h-[calc(100vh-20rem)] flex items-end px-8 pb-24 justify-center">
       <div className="max-w-7xl mx-auto w-full">
         <h1 className="text-[12vw] sm:text-[10vw] lg:text-[8vw] font-bold tracking-tighter leading-[0.85]">
-          <span className="font-red-hat-mono font-bold  hover:scale-105 transition-transform inline-block tracking-[0.1em]">
+          <span className="font-mono font-bold  hover:scale-105 transition-transform inline-block tracking-[0.1em]">
             <GradientText 
               text="BLAKE" 
               id="blake" 
@@ -15,7 +15,7 @@ export function HeroSection() {
             />
           </span>
           <br />
-          <span className="font-red-hat-mono hover:scale-105 transition-transform inline-block tracking-[0.1em] leading-[0.85]">
+          <span className="font-mono hover:scale-105 transition-transform inline-block tracking-[0.1em] leading-[0.85]">
             <GradientText 
               text="WERLINGER" 
               id="werlinger" 
@@ -25,13 +25,13 @@ export function HeroSection() {
           </span>
         </h1>
         
-        <div className="mt-12 grid lg:grid-cols-2 gap-8 lg:gap-24">
-          <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-xl">
-            C# (.NET) backends, AI agents, game systems and architecture.
+        <div className="mt-12 grid lg:grid-cols-6 gap-8 lg:gap-24">
+          <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-full col-span-4">
+          Self-taught since 2015. Early AutoGPT contributor.  C#, Python, and AI agents.
           </p>
-          
-          <div className="flex flex-col gap-6 lg:items-end">
-            <div className="flex items-center gap-6">
+
+          <div className="flex flex-col gap-6 lg:items-end col-span-2">
+            <div className="flex items-center gap-6 ">
               <a 
                 href="mailto:hello@blake-werlinger.com" 
                 className="text-foreground hover:text-primary transition-colors flex items-center gap-2 group"
