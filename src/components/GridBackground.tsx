@@ -9,7 +9,7 @@ const glowColor = "rgba(56, 149, 248, 0.3)";
 export function GridBackground() {
   const glowRef = useRef<HTMLDivElement>(null);
 
-  useMouseGlow(glowRef, undefined, { radius: 500 });
+  useMouseGlow(glowRef, undefined, { radius: 420 });
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">

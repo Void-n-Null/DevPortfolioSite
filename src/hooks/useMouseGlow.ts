@@ -13,6 +13,7 @@ export function useMouseGlow(
 ) {
   const { radius = 250 } = options;
   const rectRef = useRef<DOMRect | null>(null);
+  const lastMousePos = useRef({ x: -1000, y: -1000 });
   const rafId = useRef<number | null>(null);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export function useMouseGlow(
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+      lastMousePos.current = { x: e.clientX, y: e.clientY };
       if (rafId.current) cancelAnimationFrame(rafId.current);
       
       rafId.current = requestAnimationFrame(() => {
@@ -53,8 +55,13 @@ export function useMouseGlow(
       }
     };
 
-    const handleReset = () => {
-      rectRef.current = null; // Invalidate cache on scroll/resize
+    const handleScrollOrResize = () => {
+      rectRef.current = null; // Invalidate cache
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      
+      rafId.current = requestAnimationFrame(() => {
+        updateGlow(lastMousePos.current.x, lastMousePos.current.y);
+      });
     };
 
     const target = container || window;
@@ -65,16 +72,16 @@ export function useMouseGlow(
     }
 
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("scroll", handleReset, { passive: true });
-    window.addEventListener("resize", handleReset);
+    window.addEventListener("scroll", handleScrollOrResize, { passive: true });
+    window.addEventListener("resize", handleScrollOrResize);
 
     return () => {
       if (container) {
         container.removeEventListener("mouseenter", handleMouseEnter);
       }
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("scroll", handleReset);
-      window.removeEventListener("resize", handleReset);
+      window.removeEventListener("scroll", handleScrollOrResize);
+      window.removeEventListener("resize", handleScrollOrResize);
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
   }, [glowRef, containerRef, radius]);

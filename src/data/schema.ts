@@ -16,6 +16,14 @@ export interface FeaturedContent {
     alt: string;
     caption?: string;
   };
+  imageGallery?: {
+    images: {
+      src: string;
+      alt: string;
+      caption?: string;
+    }[];
+    columns?: 1 | 2 | 3;
+  };
   videoCaption?: string;
   videoCaptionLinks?: Link[];
   additionalContent?: string;
@@ -44,5 +52,30 @@ export interface ContentSection {
   icon: SectionIcon;
   entries: ContentEntry[];
   accentColor?: "primary" | "secondary" | string;
+}
+
+export interface TechItem {
+  name: string;
+  icon?: SectionIcon;
+}
+
+export interface ProjectCaseStudy {
+  id: string;
+  title: string;
+  sections: {
+    id: string;
+    title: string;
+    content: string;
+    image?: {
+      src: string;
+      alt: string;
+      caption?: string;
+    };
+    gallery?: {
+      src: string;
+      alt: string;
+      caption?: string;
+    }[];
+  }[];
 }
 
