@@ -23,6 +23,49 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "autogpt",
+    title: "AutoGPT",
+    description:
+      "Contributed to the development of AutoGPT, one of the first projects to use LLMs for agentic workflows. Worked directly with Toran Bruce Richards on agent architecture.",
+    longDescription:
+      "Early contributor to AutoGPT during its explosive growth phase. Built a recursive summarization system for context compression and added Selenium-based web search capabilities. Participated in architecture discussions that shaped modern AI agent design patterns.",
+    tech: ["Python", "GPT-4", "Prompt Engineering", "Selenium"],
+    link: "https://github.com/Significant-Gravitas/AutoGPT",
+    github: "https://github.com/Significant-Gravitas/AutoGPT",
+    featured: true,
+    status: "contribution",
+    highlights: [
+      "180k+ GitHub stars",
+      "Pre-function-calling era",
+      "Context compression system",
+    ],
+  },
+  {
+    id: "imagine-app",
+    title: "Imagine App",
+    description:
+      "An agentic AI assistant for Best Buy product search. Built a complete tool-calling architecture with fluent API client and OpenRouter OAuth integration.",
+    longDescription:
+      "A Flutter mobile app demonstrating production-ready AI agent architecture. Features a custom AgentRunner implementing the classic think → tool call → execute → observe loop, a fluent builder API for Best Buy's product catalog, and OAuth PKCE authentication for 200+ LLM models via OpenRouter.",
+    tech: ["Flutter", "Dart", "OpenRouter", "AI Agents"],
+    link: "https://github.com/Void-n-Null/Imagine-App",
+    github: "https://github.com/Void-n-Null/Imagine-App",
+    featured: true,
+    status: "shipped",
+    image: {
+      src: "/imagine_app_demo.png",
+      scale: 1.2,
+      offsetX: 0,
+      offsetY: 0,
+      opacity: 0.4,
+    },
+    highlights: [
+      "Full agentic loop",
+      "200+ LLM models",
+      "Fluent API design",
+    ],
+  },
+  {
     id: "godot-goap",
     title: "Godot GOAP Demo",
     description:
@@ -71,24 +114,6 @@ export const projects: Project[] = [
       "43% smaller bang database",
       "Custom bang editor",
       "Instant search redirection",
-    ],
-  },
-  {
-    id: "autogpt",
-    title: "AutoGPT",
-    description:
-      "Contributed to the development of AutoGPT, one of the first projects to use LLMs for agentic workflows. Worked directly with Toran Bruce Richards on agent architecture.",
-    longDescription:
-      "Early contributor to AutoGPT during its explosive growth phase (now the 24th most starred repo on GitHub). Built a recursive summarization system for context compression and added Selenium-based web search capabilities. Participated in architecture discussions that shaped modern AI agent design patterns.",
-    tech: ["Python", "GPT-4", "Prompt Engineering", "Selenium"],
-    link: "https://github.com/Significant-Gravitas/AutoGPT",
-    github: "https://github.com/Significant-Gravitas/AutoGPT",
-    featured: true,
-    status: "contribution",
-    highlights: [
-      "Pre-function-calling era",
-      "Context compression system",
-      "24th most starred on GitHub",
     ],
   },
 ];
