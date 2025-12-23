@@ -10,6 +10,86 @@ import Image from "next/image";
 import { GridBackground } from "@/components/GridBackground";
 import { SimpleIcon } from "@/components/ui/SimpleIcon";
 
+// Simple text formatter for bold, italic, and lists
+function formatText(text: string) {
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+  let currentList: React.ReactNode[] = [];
+  let listKey = 0;
+
+  const flushList = () => {
+    if (currentList.length > 0) {
+      elements.push(
+        <ul key={`list-${listKey++}`} className="list-disc list-inside space-y-1 my-4">
+          {currentList}
+        </ul>
+      );
+      currentList = [];
+    }
+  };
+
+  lines.forEach((line, lineIndex) => {
+    // Check if line is a list item
+    const listMatch = line.match(/^[•\-]\s+(.+)$/);
+    
+    if (listMatch) {
+      const content = listMatch[1];
+      currentList.push(
+        <li key={`item-${lineIndex}`} className="ml-4">
+          {formatInlineText(content)}
+        </li>
+      );
+    } else {
+      flushList();
+      if (line.trim() === '') {
+        elements.push(<br key={`br-${lineIndex}`} />);
+      } else {
+        elements.push(
+          <span key={`line-${lineIndex}`} className="block">
+            {formatInlineText(line)}
+          </span>
+        );
+      }
+    }
+  });
+
+  flushList();
+  return elements;
+}
+
+// Format bold and italic inline
+function formatInlineText(text: string) {
+  const parts: React.ReactNode[] = [];
+  let remaining = text;
+  let key = 0;
+
+  while (remaining.length > 0) {
+    // Try to match bold (**text**)
+    const boldMatch = remaining.match(/^(.*?)\*\*(.+?)\*\*(.*)/s);
+    if (boldMatch) {
+      if (boldMatch[1]) parts.push(boldMatch[1]);
+      parts.push(<strong key={`b-${key++}`} className="font-semibold text-foreground">{formatInlineText(boldMatch[2])}</strong>);
+      remaining = boldMatch[3];
+      continue;
+    }
+
+    // Try to match italic (*text*)
+    const italicMatch = remaining.match(/^(.*?)\*([^*]+?)\*(.*)/s);
+    if (italicMatch) {
+      if (italicMatch[1]) parts.push(italicMatch[1]);
+      parts.push(<em key={`i-${key++}`} className="italic text-foreground/90">{italicMatch[2]}</em>);
+      remaining = italicMatch[3];
+      continue;
+    }
+
+    // No more formatting found
+    parts.push(remaining);
+    break;
+  }
+
+  return parts.length === 1 ? parts[0] : parts;
+}
+
 export default function ProjectPage() {
   const params = useParams();
   const id = params.id as string;
@@ -218,16 +298,16 @@ export default function ProjectPage() {
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
                       <div className="flex items-center gap-4 mb-8">
-                        <h2 className="text-2xl sm:text-3xl font-mono font-bold tracking-tight">
+                        <h2 className="text-2xl sm:text-4xl font-mono font-medium tracking-tight">
                           {section.title}
                         </h2>
                         <div className="flex-1 h-px bg-gradient-to-r from-border/50 to-transparent" />
                       </div>
 
                       <div className="prose prose-lg prose-invert max-w-none">
-                        <p className="text-muted-foreground leading-relaxed whitespace-pre-line text-lg">
-                          {section.content}
-                        </p>
+                        <div className="text-zinc-300 leading-relaxed text-xl">
+                          {formatText(section.content)}
+                        </div>
                       </div>
 
                       {section.image && (
