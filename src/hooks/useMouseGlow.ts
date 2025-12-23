@@ -4,6 +4,7 @@ import { useEffect, RefObject, useRef } from "react";
 
 interface UseMouseGlowOptions {
   radius?: number;
+  stretchFactor?: number;
 }
 
 export function useMouseGlow(
@@ -11,7 +12,7 @@ export function useMouseGlow(
   containerRef?: RefObject<HTMLElement | null>,
   options: UseMouseGlowOptions = {}
 ) {
-  const { radius = 250 } = options;
+  const { radius = 250, stretchFactor = 0 } = options;
   const rectRef = useRef<DOMRect | null>(null);
   const lastMousePos = useRef({ x: -1000, y: -1000 });
   const rafId = useRef<number | null>(null);
@@ -24,7 +25,7 @@ export function useMouseGlow(
     // Use window as fallback if no containerRef is provided
     const container = containerRef?.current || null;
 
-    const updateGlow = (x: number, y: number) => {
+    const updateGlow = (x: number, y: number, dx: number = 0, dy: number = 0) => {
       let relativeX = x;
       let relativeY = y;
 
@@ -36,7 +37,10 @@ export function useMouseGlow(
         relativeY = y - rectRef.current.top;
       }
 
-      const gradient = `radial-gradient(${radius}px circle at ${relativeX}px ${relativeY}px, black, transparent)`;
+      const rx = radius * (1 + Math.abs(dy) * stretchFactor);
+      const ry = radius * (1 + Math.abs(dx) * stretchFactor);
+
+      const gradient = `radial-gradient(ellipse ${rx}px ${ry}px at ${relativeX}px ${relativeY}px, black, transparent)`;
       
       refs.forEach(ref => {
         if (ref.current) {
@@ -47,11 +51,16 @@ export function useMouseGlow(
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+      const isFirstMove = lastMousePos.current.x === -1000;
+      const dx = isFirstMove ? 0 : e.clientX - lastMousePos.current.x;
+      const dy = isFirstMove ? 0 : e.clientY - lastMousePos.current.y;
+      
       lastMousePos.current = { x: e.clientX, y: e.clientY };
+      
       if (rafId.current) cancelAnimationFrame(rafId.current);
       
       rafId.current = requestAnimationFrame(() => {
-        updateGlow(e.clientX, e.clientY);
+        updateGlow(e.clientX, e.clientY, dx, dy);
       });
     };
 

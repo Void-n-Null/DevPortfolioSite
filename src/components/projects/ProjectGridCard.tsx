@@ -19,11 +19,11 @@ export function ProjectGridCard({ project, size }: ProjectGridCardProps) {
   const glowBgRef = useRef<HTMLDivElement>(null);
 
   // Glow settings
-  const borderRadius = 250;
-  const bgRadius = 1000;
+  const borderRadius = 350;
+  const bgRadius = 700;
 
-  useMouseGlow(glowBorderRef, containerRef, { radius: borderRadius });
-  useMouseGlow(glowBgRef, containerRef, { radius: bgRadius });
+  useMouseGlow(glowBorderRef, containerRef, { radius: borderRadius, stretchFactor: 0.05 });
+  useMouseGlow(glowBgRef, containerRef, { radius: bgRadius, stretchFactor: 0.08 });
 
   const statusColors: Record<string, { bg: string; text: string; dot: string; label: string }> = {
     shipped: { bg: "bg-primary/15", text: "text-primary", dot: "bg-primary", label: "Shipped" },
@@ -71,10 +71,10 @@ export function ProjectGridCard({ project, size }: ProjectGridCardProps) {
       {/* Glowing border - follows mouse */}
       <div 
         ref={glowBorderRef}
-        className="absolute inset-0 z-10 rounded-2xl border-2 border-blue-500/80 pointer-events-none opacity-30 group-hover:opacity-100 transition-opacity duration-500"
+        className="absolute inset-0 z-10 rounded-2xl border-2 border-blue-500/80 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          maskImage: `radial-gradient(${borderRadius}px circle at -1000px -1000px, black, transparent)`,
-          WebkitMaskImage: `radial-gradient(${borderRadius}px circle at -1000px -1000px, black, transparent)`,
+          maskImage: `radial-gradient(ellipse ${borderRadius}px ${borderRadius}px at -1000px -1000px, black, transparent)`,
+          WebkitMaskImage: `radial-gradient(ellipse ${borderRadius}px ${borderRadius}px at -1000px -1000px, black, transparent)`,
         }}
       />
 
@@ -90,10 +90,10 @@ export function ProjectGridCard({ project, size }: ProjectGridCardProps) {
         {/* Background glow - follows mouse */}
         <div 
           ref={glowBgRef}
-          className="absolute inset-0 z-0 pointer-events-none opacity-30 group-hover:opacity-100 transition-opacity duration-500 bg-blue-600/25"
+          className="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-blue-600/25"
           style={{
-            maskImage: `radial-gradient(${bgRadius}px circle at -1000px -1000px, black, transparent)`,
-            WebkitMaskImage: `radial-gradient(${bgRadius}px circle at -1000px -1000px, black, transparent)`,
+            maskImage: `radial-gradient(ellipse ${bgRadius}px ${bgRadius}px at -1000px -1000px, black, transparent)`,
+            WebkitMaskImage: `radial-gradient(ellipse ${bgRadius}px ${bgRadius}px at -1000px -1000px, black, transparent)`,
           }}
         />
 
