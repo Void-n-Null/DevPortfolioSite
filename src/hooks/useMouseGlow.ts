@@ -7,7 +7,7 @@ interface UseMouseGlowOptions {
 }
 
 export function useMouseGlow(
-  glowRef: RefObject<HTMLElement | null>,
+  glowRef: RefObject<HTMLElement | null> | RefObject<HTMLElement | null>[],
   containerRef?: RefObject<HTMLElement | null>,
   options: UseMouseGlowOptions = {}
 ) {
@@ -17,8 +17,9 @@ export function useMouseGlow(
   const rafId = useRef<number | null>(null);
 
   useEffect(() => {
-    const glowElement = glowRef.current;
-    if (!glowElement) return;
+    const refs = Array.isArray(glowRef) ? glowRef : [glowRef];
+    const firstValidRef = refs.find(ref => ref.current);
+    if (!firstValidRef) return;
 
     // Use window as fallback if no containerRef is provided
     const container = containerRef?.current || null;
@@ -36,8 +37,13 @@ export function useMouseGlow(
       }
 
       const gradient = `radial-gradient(${radius}px circle at ${relativeX}px ${relativeY}px, black, transparent)`;
-      glowElement.style.maskImage = gradient;
-      glowElement.style.webkitMaskImage = gradient;
+      
+      refs.forEach(ref => {
+        if (ref.current) {
+          ref.current.style.maskImage = gradient;
+          ref.current.style.webkitMaskImage = gradient;
+        }
+      });
     };
 
     const handleMouseMove = (e: MouseEvent) => {

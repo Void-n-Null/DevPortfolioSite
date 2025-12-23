@@ -16,8 +16,9 @@ interface ProjectGridCardProps {
 export function ProjectGridCard({ project, size }: ProjectGridCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const glowBorderRef = useRef<HTMLDivElement>(null);
+  const glowBgRef = useRef<HTMLDivElement>(null);
 
-  useMouseGlow(glowBorderRef, containerRef, { radius: 250 });
+  useMouseGlow([glowBorderRef, glowBgRef], containerRef, { radius: 250 });
 
   const statusColors: Record<string, { bg: string; text: string; dot: string; label: string }> = {
     shipped: { bg: "bg-primary/15", text: "text-primary", dot: "bg-primary", label: "Shipped" },
@@ -81,6 +82,16 @@ export function ProjectGridCard({ project, size }: ProjectGridCardProps) {
         transition-all duration-500
         group-hover:bg-card/60
       `}>
+        {/* Background glow - follows mouse */}
+        <div 
+          ref={glowBgRef}
+          className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-500 bg-primary/5"
+          style={{
+            maskImage: "radial-gradient(250px circle at -1000px -1000px, black, transparent)",
+            WebkitMaskImage: "radial-gradient(250px circle at -1000px -1000px, black, transparent)",
+          }}
+        />
+
         {/* Content layer */}
         <div className="relative z-10 flex flex-col h-full">
           {/* Header: Status badge */}
