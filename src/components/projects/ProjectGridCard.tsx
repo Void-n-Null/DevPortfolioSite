@@ -89,7 +89,7 @@ export function ProjectGridCard({ project, size }: ProjectGridCardProps) {
         {/* Background glow - follows mouse */}
         <div 
           ref={glowBgRef}
-          className="absolute inset-0 z-0 pointer-events-none opacity-30 group-hover:opacity-100 transition-opacity duration-500 bg-blue-600/25"
+          className="absolute inset-0 z-0 pointer-events-none opacity-30 group-hover:opacity-100 transition-opacity duration-500 bg-blue-600/35"
           style={{
             maskImage: `radial-gradient(${bgRadius}px circle at -1000px -1000px, black, transparent)`,
             WebkitMaskImage: `radial-gradient(${bgRadius}px circle at -1000px -1000px, black, transparent)`,
