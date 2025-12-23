@@ -50,6 +50,15 @@ I restructured the entire database into an array-based format with category look
 I set up a GitHub Actions workflow that runs on the 1st of each month. It fetches fresh data from both sources, merges them, runs my optimization scripts, and deploys the updated database automatically. It's set-and-forget. It's not the most up-to-date if either source is constantly adding new bangs, but from what I've seen, they tend to not add new bangs super frequently. The tool stays current without me touching it.`,
     },
     {
+      id: "why-client-side",
+      title: "Why Client-Side Matters",
+      content: `The whole point of this approach is speed. When you use DuckDuckGo's bangs, your query goes to their servers, they process it, then redirect you. That's a full round trip that depends on their infrastructure.
+
+With Rebang, everything happens in your browser. The bang database is cached locally as JavaScript. When you type a bang, the lookup and redirect happen instantly without any network requests. It's the difference between waiting for a server response and having the answer already in memory.
+
+This is why the database optimization mattered. Every kilobyte saved means faster initial load and less memory footprint. But after that first load, using bangs is practically instantaneous.`,
+    },
+    {
       id: "reflection",
       title: "The Takeaway",
       content: `This project was about taking a clever idea and turning it into a product I would use daily. Theo proved the concept of client-side redirects, but I wanted to make it a product I loved using. 

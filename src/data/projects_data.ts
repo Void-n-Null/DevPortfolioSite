@@ -70,7 +70,7 @@ export const projects: Project[] = [
     description:
       "An agentic AI assistant for Best Buy product search. Built a complete tool-calling architecture with fluent API client and OpenRouter OAuth integration.",
     longDescription:
-      "A Flutter mobile app demonstrating production-ready AI agent architecture. Features a custom AgentRunner implementing the classic think → tool call → execute → observe loop, a fluent builder API for Best Buy's product catalog, and OAuth PKCE authentication for 600+ LLM models via OpenRouter.",
+      "A Flutter mobile app demonstrating production-ready AI agent architecture. Features a custom AgentRunner implementing the classic think → tool call → execute → observe loop, a fluent builder API for Best Buy's product catalog, and OAuth PKCE authentication for 300+ LLM models via OpenRouter.",
     tech: [
       { name: "Flutter", icon: { kind: "simple", icon: siFlutter } },
       { name: "Dart", icon: { kind: "simple", icon: siDart } },
@@ -90,7 +90,7 @@ export const projects: Project[] = [
     },
     highlights: [
       "Full agentic loop with tool calling",
-      "600+ LLM models via OpenRouter",
+      "300+ LLM models via OpenRouter",
       "Fluent builder API design",
       "OpenRouter OAuth PKCE authentication",
     ],
