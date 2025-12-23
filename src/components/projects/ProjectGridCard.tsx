@@ -66,7 +66,7 @@ export function ProjectGridCard({ project, size }: ProjectGridCardProps) {
       {/* Glowing border - follows mouse */}
       <div 
         ref={glowBorderRef}
-        className="absolute inset-0 z-10 rounded-2xl border-2 border-blue-500/80 pointer-events-none transition-opacity duration-500"
+        className="absolute inset-0 z-10 rounded-2xl border-2 border-blue-500/80 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
           maskImage: "radial-gradient(250px circle at -1000px -1000px, black, transparent)",
           WebkitMaskImage: "radial-gradient(250px circle at -1000px -1000px, black, transparent)",
@@ -85,7 +85,7 @@ export function ProjectGridCard({ project, size }: ProjectGridCardProps) {
         {/* Background glow - follows mouse */}
         <div 
           ref={glowBgRef}
-          className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-500 bg-primary/5"
+          className="absolute inset-0 z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-blue-500/15"
           style={{
             maskImage: "radial-gradient(250px circle at -1000px -1000px, black, transparent)",
             WebkitMaskImage: "radial-gradient(250px circle at -1000px -1000px, black, transparent)",
