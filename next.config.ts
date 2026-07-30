@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/projects/godot-goap",
-        destination: "https://werlinger.dev/projects/godot-goap-demo",
+        destination: "https://werlinger.dev/projects/omnith",
         statusCode: 301,
       },
       {
